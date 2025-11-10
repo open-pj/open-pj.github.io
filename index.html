@@ -1,0 +1,102 @@
+<!doctype html>
+
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Open Source Portfolio — полный проект</title>
+</head>
+<body>Проект: Open Source Portfolio (Frontend) — готовая структура
+
+Этот документ содержит все файлы и инструкции для полноценного фронтенд-сайта портфолио с:
+
+Firebase Authentication (Google + Microsoft)
+
+Мультиязычность (укр, рус, англ)
+
+Редактирование профиля (имя, аватар, описание)
+
+Стили в CSS и интерактивность на чистом JavaScript
+
+Готовность для размещения на GitHub Pages
+
+
+
+---
+
+Что я добавил сюда (файлы)
+
+1. index.html — главный файл — подключает стили и скрипты.
+
+
+2. styles.css — все стили (тёмная тема, анимации, адаптивность).
+
+
+3. app.js — основной frontend: рендер проектов, переключение языка, локальное хранилище.
+
+
+4. auth.js — модуль для Firebase Auth: init, Google sign-in, Microsoft sign-in, sign-out, слушатель состояния.
+
+
+5. profile.js — UI и логика редактирования профиля; сохраняет профиль в Firestore (или localStorage как fallback).
+
+
+6. firebase-config.example.js — шаблон конфигурации Firebase (вставь свои значения).
+
+
+7. README.md — инструкции по настройке Firebase и развёртыванию на GitHub Pages.
+
+
+
+
+---
+
+Короткие инструкции (в README):
+
+1. Создай проект в Firebase Console.
+
+
+2. Включи Authentication → Google и Microsoft (Microsoft: используй OAuth provider microsoft.com в консоли Firebase). Подключай Redirect/Authorized domains — обязательно добавь https://<your-username>.github.io.
+
+
+3. Создай Firestore (или используй localStorage если хочешь без БД).
+
+
+4. Скопируй firebase-config.example.js → firebase-config.js и вставь свои значения.
+
+
+5. Запушь в репозиторий и включи GitHub Pages (Settings → Pages → branch: main / gh-pages).
+
+
+
+
+---
+
+Примечания по безопасности и ограничениях
+
+Firebase client config (apiKey, authDomain...) можно хранить в клиенте — это нормально; но не храните секреты сервера или admin SDK keys в клиентском коде.
+
+Для Google и Microsoft OAuth в Firebase убедись, что в настройках провайдеров добавлены корректные Authorized domains.
+
+На GitHub Pages сайт будет раздаваться по HTTPS, что разрешено для OAuth redirect URIs.
+
+
+
+---
+
+Если хочешь — я могу:
+
+Заполнить projects реальными репозиториями (пришли список ссылок).
+
+Подготовить workflow GitHub Actions для автоматического деплоя.
+
+Добавить поддержку хранения профиля и проектов в Firestore и пример правил безопасности.
+
+
+
+---
+
+Файл в этом документе обновлён — все исходники и инструкции находятся здесь, чтобы ты мог их скопировать в свой репозиторий.
+
+</body>
+</html>
