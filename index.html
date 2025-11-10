@@ -1,782 +1,462 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="uk">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevPortfolio - Мої проекти</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #6C63FF;
-            --secondary: #4A44C6;
-            --accent: #FF6584;
-            --dark: #2A2D3E;
-            --light: #F7F9FC;
-            --text: #333333;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: var(--text);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header Styles */
-        header {
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            color: var(--dark);
-            padding: 1.2rem 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            color: var(--primary);
-        }
-
-        .logo i {
-            margin-right: 10px;
-            font-size: 1.5rem;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-
-        nav ul li {
-            margin-left: 1.8rem;
-        }
-
-        nav ul li a {
-            color: var(--dark);
-            text-decoration: none;
-            font-weight: 500;
-            transition: var(--transition);
-            padding: 8px 12px;
-            border-radius: 6px;
-            position: relative;
-        }
-
-        nav ul li a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            transition: var(--transition);
-            transform: translateX(-50%);
-        }
-
-        nav ul li a:hover::after {
-            width: 80%;
-        }
-
-        nav ul li a:hover {
-            color: var(--primary);
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .language-selector {
-            display: flex;
-            gap: 8px;
-            background: rgba(108, 99, 255, 0.1);
-            padding: 6px;
-            border-radius: 8px;
-        }
-
-        .lang-btn {
-            background: transparent;
-            border: none;
-            color: var(--dark);
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: var(--transition);
-            font-weight: 500;
-        }
-
-        .lang-btn:hover, .lang-btn.active {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .auth-btn {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: var(--transition);
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
-        }
-
-        .auth-btn:hover {
-            background-color: var(--secondary);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(108, 99, 255, 0.4);
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            padding: 180px 0 100px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
-            background-size: cover;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            animation: fadeInUp 1s ease;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2.5rem;
-            animation: fadeInUp 1s ease 0.2s both;
-            opacity: 0.9;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background-color: var(--accent);
-            color: white;
-            padding: 15px 35px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: var(--transition);
-            animation: fadeInUp 1s ease 0.4s both;
-            box-shadow: 0 4px 15px rgba(255, 101, 132, 0.4);
-            font-size: 1.1rem;
-        }
-
-        .cta-button:hover {
-            background-color: #ff4d6d;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(255, 101, 132, 0.5);
-        }
-
-        /* Projects Section */
-        .projects {
-            padding: 100px 0;
-            background-color: var(--light);
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 4rem;
-            position: relative;
-            font-size: 2.5rem;
-            color: var(--dark);
-        }
-
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 100px;
-            height: 5px;
-            background: linear-gradient(to right, var(--primary), var(--accent));
-            margin: 15px auto;
-            border-radius: 3px;
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 30px;
-        }
-
-        .project-card {
-            background-color: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            opacity: 0;
-            transform: translateY(30px);
-            position: relative;
-        }
-
-        .project-card.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .project-card:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        .project-image {
-            height: 200px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 3.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .project-image::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.1);
-        }
-
-        .project-content {
-            padding: 25px;
-        }
-
-        .project-title {
-            font-size: 1.5rem;
-            margin-bottom: 12px;
-            color: var(--dark);
-        }
-
-        .project-description {
-            color: #666;
-            margin-bottom: 20px;
-            line-height: 1.7;
-        }
-
-        .project-tech {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .tech-tag {
-            background: rgba(108, 99, 255, 0.1);
-            color: var(--primary);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .project-links {
-            display: flex;
-            gap: 12px;
-        }
-
-        .project-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: var(--transition);
-            flex: 1;
-            justify-content: center;
-        }
-
-        .github-link {
-            background-color: var(--dark);
-            color: white;
-        }
-
-        .demo-link {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .project-link:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        /* About Section */
-        .about {
-            padding: 100px 0;
-            background: white;
-        }
-
-        .about-content {
-            display: flex;
-            align-items: center;
-            gap: 60px;
-        }
-
-        .about-text {
-            flex: 1;
-        }
-
-        .about-text p {
-            margin-bottom: 20px;
-            font-size: 1.1rem;
-        }
-
-        .about-image {
-            flex: 1;
-            text-align: center;
-        }
-
-        .profile-img {
-            width: 350px;
-            height: 350px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 6rem;
-            margin: 0 auto;
-            box-shadow: var(--shadow);
-            animation: pulse 3s infinite;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .profile-img::after {
-            content: '';
-            position: absolute;
-            width: 150%;
-            height: 150%;
-            background: rgba(255, 255, 255, 0.1);
-            transform: rotate(45deg);
-            animation: shine 5s infinite;
-        }
-
-        .skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .skill {
-            background: var(--light);
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-weight: 500;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-            transition: var(--transition);
-        }
-
-        .skill:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            background: var(--primary);
-            color: white;
-        }
-
-        /* Contact Section */
-        .contact {
-            padding: 100px 0;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            text-align: center;
-        }
-
-        .contact h2 {
-            color: white;
-            margin-bottom: 3rem;
-        }
-
-        .contact-form {
-            max-width: 600px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 40px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            background: rgba(255, 255, 255, 0.9);
-            transition: var(--transition);
-        }
-
-        .form-group input:focus, .form-group textarea:focus {
-            outline: none;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 15px;
-            background-color: var(--accent);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            box-shadow: 0 4px 15px rgba(255, 101, 132, 0.4);
-        }
-
-        .submit-btn:hover {
-            background-color: #ff4d6d;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(255, 101, 132, 0.5);
-        }
-
-        /* Footer */
-        footer {
-            background-color: var(--dark);
-            color: white;
-            padding: 60px 0 20px;
-        }
-
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 40px;
-        }
-
-        .footer-section {
-            flex: 1;
-        }
-
-        .footer-section h3 {
-            margin-bottom: 20px;
-            position: relative;
-            padding-bottom: 10px;
-            font-size: 1.3rem;
-        }
-
-        .footer-section h3::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50px;
-            height: 3px;
-            background: var(--primary);
-        }
-
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .social-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            color: white;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .social-link:hover {
-            background: var(--primary);
-            transform: translateY(-3px);
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.9rem;
-            opacity: 0.7;
-        }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal-content {
-            background-color: white;
-            padding: 40px;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 450px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-            position: relative;
-            animation: modalFadeIn 0.4s ease;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #999;
-            transition: var(--transition);
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-        }
-
-        .close-modal:hover {
-            color: var(--accent);
-            background: rgba(0, 0, 0, 0.05);
-        }
-
-        .modal h2 {
-            margin-bottom: 25px;
-            text-align: center;
-            color: var(--dark);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--dark);
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 14px;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            margin-top: 10px;
-        }
-
-        .submit-btn:hover {
-            background-color: var(--secondary);
-        }
-
-        .message {
-            margin-top: 15px;
-            padding: 12px;
-            border-radius: 8px;
-            text-align: center;
-            display: none;
-            font-weight: 500;
-        }
-
-        .success {
-            background-color: rgba(46, 204, 113, 0.2);
-            color: #27ae60;
-            border: 1px solid #27ae60;
-        }
-
-        .error {
-            background-color: rgba(231, 76, 60, 0.2);
-            color: #e74c3c;
-            border: 1px solid #e74c3c;
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        @keyframes shine {
-            0% {
-                left: -100%;
-            }
-            20% {
-                left: 100%;
-            }
-            100% {
-                left: 100%;
-            }
-        }
-
-        @keyframes modalFadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-60px) scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
-        /* Back to Top Button */
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.4);
-            transition: var(--transition);
-            z-index: 100;
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .back-to-top.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .back-to-top:hover {
-            background: var(--secondary);
-            transform: translateY(-5px);
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 992px) {
-            .about-content {
-                flex-direction: column;
-            }
-            
-            .profile-img {
-                width: 280px;
-                height: 280px;
-       
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Neon Open Source Portfolio — Demo</title>
+<meta name="description" content="Neon portfolio — показ Open Source проектів, мультимовність, демо-логін, редагування профілю.">
+<style>
+  :root{
+    --bg:#050512;
+    --panel: rgba(255,255,255,0.03);
+    --glass: rgba(255,255,255,0.03);
+    --muted: #9fb0c8;
+    --accent1: #7dd3fc; /* cyan */
+    --accent2: #a78bfa; /* purple */
+    --neon: #00f0ff;
+    --danger: #ff6b6b;
+    --radius:14px;
+    --gap:18px;
+    --maxw:1300px;
+    --glass-2: rgba(255,255,255,0.02);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;padding:28px;display:flex;justify-content:center;
+    font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background:
+      radial-gradient(800px 400px at 10% 10%, rgba(125,211,252,0.04), transparent),
+      linear-gradient(180deg,var(--bg), #020214 120%);
+    color:#eaf6ff; -webkit-font-smoothing:antialiased;
+  }
+
+  .wrap{width:100%;max-width:var(--maxw)}
+  header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px}
+  .brand{display:flex;gap:12px;align-items:center}
+  .logo{
+    width:64px;height:64px;border-radius:14px;background:
+      linear-gradient(135deg,var(--accent1),var(--accent2));
+    display:grid;place-items:center;font-weight:800;color:#021827;font-size:18px;
+    box-shadow:0 8px 30px rgba(167,139,250,0.12), 0 0 28px rgba(125,211,252,0.06) inset;
+  }
+  h1{margin:0;font-size:20px}
+  .lead{margin:0;color:var(--muted);font-size:13px}
+
+  .controls{display:flex;gap:10px;align-items:center}
+  .input, .select, .btn{
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+    border:1px solid var(--glass); padding:10px 12px; border-radius:12px; color:inherit; outline:none;
+  }
+  .input{min-width:220px}
+  .btn{cursor:pointer;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04)}
+  .btn.primary{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#021827;font-weight:700;border:none;box-shadow:0 8px 30px rgba(167,139,250,0.08)}
+
+  nav.topbar{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+  .profile-preview{display:flex;align-items:center;gap:12px}
+  .avatar{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#05232e,#071029);display:grid;place-items:center;font-weight:800;color:var(--accent1);font-size:18px;box-shadow:0 8px 30px rgba(0,240,255,0.04) inset}
+  .profile-info{line-height:1}
+  .profile-info .name{font-weight:700}
+  .profile-info .bio{color:var(--muted);font-size:13px}
+
+  .lang-switch{display:flex;gap:8px}
+  .lang-switch button{padding:6px 8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--muted);cursor:pointer}
+  .lang-switch button.active{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#021827;font-weight:700;box-shadow:0 6px 22px rgba(125,211,252,0.07)}
+
+  main{display:block}
+  .grid{display:grid;gap:var(--gap);grid-auto-rows:1fr}
+  /* responsive columns */
+  @media (min-width:1200px){ .grid{grid-template-columns:repeat(4,1fr);} }
+  @media (min-width:900px) and (max-width:1199px){ .grid{grid-template-columns:repeat(3,1fr);} }
+  @media (min-width:640px) and (max-width:899px){ .grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:639px){ .grid{grid-template-columns:1fr;} header{flex-direction:column;align-items:flex-start} }
+
+  /* card */
+  .card{
+    position:relative;overflow:hidden;border-radius:var(--radius);
+    padding:18px;background:linear-gradient(180deg, rgba(255,255,255,0.018), rgba(255,255,255,0.01));
+    border:1px solid rgba(255,255,255,0.03);min-height:160px;display:flex;flex-direction:column;gap:12px;
+    box-shadow:0 10px 40px rgba(2,6,23,0.6);
+    transition:transform .25s cubic-bezier(.2,.9,.3,1), box-shadow .25s, filter .25s;
+    transform-origin:center;
+  }
+  .card:hover{ transform:translateY(-10px) scale(1.02); box-shadow:0 30px 80px rgba(2,6,23,0.8); filter:brightness(1.03); }
+  .card .title{font-weight:800;font-size:16px;margin:0}
+  .card .desc{color:var(--muted);font-size:13px;margin-bottom:6px}
+  .card .tags{display:flex;gap:8px;flex-wrap:wrap}
+  .tag{padding:6px 8px;border-radius:999px;font-size:12px;border:1px solid rgba(255,255,255,0.03);background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));color:var(--neon)}
+  .actions{display:flex;align-items:center;gap:8px;margin-top:auto}
+  .link{padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--accent1);text-decoration:none;font-weight:700}
+  .meta{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px}
+
+  /* neon outline on hover */
+  .card::before{
+    content:'';position:absolute;inset:0;pointer-events:none;
+    box-shadow:0 0 24px rgba(125,211,252,0.035) inset;
+    transition:box-shadow .25s;
+  }
+  .card:hover::before{ box-shadow:0 0 36px rgba(125,211,252,0.12) inset, 0 0 30px rgba(167,139,250,0.06); }
+
+  /* entry animation */
+  .card{opacity:0;transform:translateY(22px) scale(.995)}
+  .card.visible{opacity:1;transform:none;transition:opacity .6s ease, transform .6s cubic-bezier(.2,.9,.3,1)}
+
+  /* section nav */
+  .sections{display:flex;gap:10px;align-items:center;margin:12px 0 18px}
+  .section-btn{padding:8px 12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--muted);cursor:pointer}
+  .section-btn.active{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#021827;font-weight:700;box-shadow:0 8px 30px rgba(125,211,252,0.06)}
+
+  /* modal */
+  .modal-back{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,6,23,0.6);z-index:50}
+  .modal{width:100%;max-width:640px;background:linear-gradient(180deg,#071029,#031122);border-radius:16px;padding:18px;border:1px solid rgba(255,255,255,0.03)}
+  .form-row{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+  input[type="text"], input[type="password"], textarea, select{padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit;outline:none}
+  textarea{min-height:100px;resize:vertical}
+
+  /* footer */
+  footer{margin-top:20px;color:var(--muted);font-size:13px;text-align:center}
+
+  /* utilities */
+  .muted{color:var(--muted)}
+  .center{text-align:center}
+  .pill{padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.03);background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));font-weight:700}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo" id="logo-nick">NET</div>
+        <div>
+          <h1 id="main-title">Neon Open Source Portfolio</h1>
+          <p class="lead" id="main-sub">Портфоліо проєктів — демонстрація</p>
+        </div>
+      </div>
+
+      <div class="controls">
+        <input id="search" class="input" placeholder="Пошук: назва, опис, теги..." />
+        <select id="filter" class="select" title="Фільтр">
+          <option value="all">Всі</option>
+          <option value="js">JavaScript</option>
+          <option value="py">Python</option>
+          <option value="web">Web</option>
+          <option value="lib">Бібліотеки</option>
+          <option value="tool">Інструменти</option>
+        </select>
+        <button id="open-login" class="btn">Вхід</button>
+        <button id="theme-toggle" class="btn">Тема</button>
+      </div>
+    </header>
+
+    <nav class="topbar">
+      <div class="profile-preview">
+        <div class="avatar" id="avatar-preview">U</div>
+        <div class="profile-info">
+          <div class="name" id="profile-name">Гість</div>
+          <div class="bio" id="profile-bio">Увійдіть щоб редагувати профіль</div>
+        </div>
+      </div>
+
+      <div style="margin-left:auto;display:flex;gap:12px;align-items:center">
+        <div class="sections" role="tablist" aria-label="Розділи">
+          <button class="section-btn active" data-section="projects">Проєкти</button>
+          <button class="section-btn" data-section="about">Про мене</button>
+          <button class="section-btn" data-section="contacts">Контакти</button>
+        </div>
+
+        <div class="lang-switch" role="tablist" aria-label="Мови">
+          <button data-lang="uk" class="active">🇺🇦 УКР</button>
+          <button data-lang="ru">🇷🇺 РУС</button>
+          <button data-lang="en">🇬🇧 ENG</button>
+        </div>
+
+        <button id="edit-profile" class="btn primary">Редагувати профіль</button>
+      </div>
+    </nav>
+
+    <main>
+      <section id="projects-section">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <h2 style="margin:0">Проєкти</h2>
+          <div class="muted">Показано <span id="count">0</span> проєктів</div>
+        </div>
+        <div id="grid" class="grid" aria-live="polite"></div>
+        <div id="empty" class="center muted" style="display:none;margin-top:18px">Проєктів не знайдено</div>
+      </section>
+
+      <section id="about-section" style="display:none;margin-top:18px">
+        <div class="modal" style="background:transparent;border:none;box-shadow:none;padding:0">
+          <h2>Про мене</h2>
+          <p class="muted">Тут можна розмістити коротку інформацію про себе — досвід, технології, посилання на соцмережі.</p>
+        </div>
+      </section>
+
+      <section id="contacts-section" style="display:none;margin-top:18px">
+        <div class="modal" style="background:transparent;border:none;box-shadow:none;padding:0">
+          <h2>Контакти</h2>
+          <p class="muted">Email: <span id="contact-email">your@mail.com</span></p>
+          <p class="muted">GitHub: <a id="contact-github" href="#" class="link">github.com/yourname</a></p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="muted">© <span id="footer-name">Твоє ім'я</span> — Neon Portfolio</div>
+    </footer>
+  </div>
+
+  <!-- Modal area -->
+  <div id="modal-back" class="modal-back" aria-hidden="true" role="dialog">
+    <div class="modal" id="modal"></div>
+  </div>
+
+<script>
+/* ------------------------------
+   Дані: 30 демонстраційних проєктів
+   Заміни на свої репозиторії (title, desc, tags, repo, stars)
+--------------------------------*/
+const projects = [
+  {title:"neon-ui-kit",desc:"Neon UI components library for quick prototyping.",tags:["js","lib","ui"],repo:"#",stars:412},
+  {title:"fast-api-tools",desc:"Utility tools for building fast APIs.",tags:["py","tool","api"],repo:"#",stars:89},
+  {title:"pixel-runner",desc:"2D browser game with WASM and canvas.",tags:["js","game"],repo:"#",stars:54},
+  {title:"chartx",desc:"Lightweight charting library with animations.",tags:["js","viz","lib"],repo:"#",stars:210},
+  {title:"cli-spark",desc:"CLI helpers and scripts for devs.",tags:["py","cli"],repo:"#",stars:33},
+  {title:"ssr-starter",desc:"Server-side rendering starter template.",tags:["js","web"],repo:"#",stars:123},
+  {title:"auth-proxy",desc:"Simple OAuth proxy example.",tags:["js","tool","auth"],repo:"#",stars:77},
+  {title:"robotics-sim",desc:"Tiny robotics physics simulator (python).",tags:["py","sim"],repo:"#",stars:46},
+  {title:"image-ops",desc:"Image processing utilities in JS.",tags:["js","lib","image"],repo:"#",stars:98},
+  {title:"design-tokens",desc:"Design tokens & theming system.",tags:["lib","css","design"],repo:"#",stars:201},
+  {title:"net-scraper",desc:"Fast web scraper with async support.",tags:["py","tool"],repo:"#",stars:67},
+  {title:"markdown-blog",desc:"Minimal blog engine using Markdown.",tags:["js","web"],repo:"#",stars:145},
+  {title:"voice-assistant",desc:"Prototype voice commands CLI.",tags:["py","ai"],repo:"#",stars:29},
+  {title:"neon-runner",desc:"Neon-themed endless runner demo.",tags:["js","game"],repo:"#",stars:12},
+  {title:"data-pipelines",desc:"ETL pipelines examples.",tags:["py","data"],repo:"#",stars:78},
+  {title:"socket-chat",desc:"Realtime chat with websockets.",tags:["js","web"],repo:"#",stars:164},
+  {title:"form-wizard",desc:"Accessible multi-step form component.",tags:["js","ui"],repo:"#",stars:90},
+  {title:"ai-playground",desc:"Tiny AI experiments & demos.",tags:["js","ai"],repo:"#",stars:320},
+  {title:"svg-anim",desc:"SVG animation utilities.",tags:["js","viz"],repo:"#",stars:49},
+  {title:"file-sync",desc:"File sync tool for local networks.",tags:["py","tool"],repo:"#",stars:22},
+  {title:"theme-switcher",desc:"Theme manager with CSS variables.",tags:["js","css"],repo:"#",stars:88},
+  {title:"auth-firebase-examples",desc:"Auth flows for Firebase quickstart.",tags:["js","auth"],repo:"#",stars:133},
+  {title:"perf-bench",desc:"Performance benchmarking harness.",tags:["tool","js"],repo:"#",stars:41},
+  {title:"video-editor-lite",desc:"In-browser small video editor.",tags:["js","media"],repo:"#",stars:56},
+  {title:"iot-dashboard",desc:"Dashboard for IoT devices.",tags:["js","web"],repo:"#",stars:119},
+  {title:"sql-helpers",desc:"Helper functions for SQL queries.",tags:["py","lib"],repo:"#",stars:18},
+  {title:"ux-patterns",desc:"Collection of UX micro-patterns.",tags:["design","lib"],repo:"#",stars:71},
+  {title:"bot-starter",desc:"Chatbot starter kit with webhooks.",tags:["js","bot"],repo:"#",stars:62},
+  {title:"localizer",desc:"Simple i18n helper for apps.",tags:["js","lib","i18n"],repo:"#",stars:99},
+  {title:"deploy-scripts",desc:"Automation scripts for CI/CD.",tags:["tool"],repo:"#",stars:47}
+];
+
+/* ------------------------------
+   Profile (localStorage)
+--------------------------------*/
+const STORAGE_KEY = 'neon_portfolio_profile_v1';
+let profile = loadProfile(); // { nick, name, bio, avatarInitials, loggedIn }
+
+const LANG = {
+  uk:{title:"Neon Open Source Portfolio",sub:"Портфоліо проєктів",login:"Вхід",edit:"Редагувати профіль",saved:"Збережено",demoNote:"Демо: Creator / netnet",openRepo:"Відкрити"},
+  ru:{title:"Neon Open Source Portfolio",sub:"Портфолио проектов",login:"Вход",edit:"Редактировать профиль",saved:"Сохранено",demoNote:"Демо: Creator / netnet",openRepo:"Открыть"},
+  en:{title:"Neon Open Source Portfolio",sub:"Projects portfolio",login:"Sign in",edit:"Edit profile",saved:"Saved",demoNote:"Demo: Creator / netnet",openRepo:"Open"}
+};
+let currentLang = 'uk';
+
+/* DOM refs */
+const grid = document.getElementById('grid');
+const searchEl = document.getElementById('search');
+const filterEl = document.getElementById('filter');
+const emptyEl = document.getElementById('empty');
+const avatarPreview = document.getElementById('avatar-preview');
+const profileNameEl = document.getElementById('profile-name');
+const profileBioEl = document.getElementById('profile-bio');
+const editProfileBtn = document.getElementById('edit-profile');
+const openLoginBtn = document.getElementById('open-login');
+const modalBack = document.getElementById('modal-back');
+const modal = document.getElementById('modal');
+const langBtns = document.querySelectorAll('.lang-switch button');
+const sectionBtns = document.querySelectorAll('.section-btn');
+const countEl = document.getElementById('count');
+const logoNick = document.getElementById('logo-nick');
+const footerName = document.getElementById('footer-name');
+const themeToggle = document.getElementById('theme-toggle');
+
+/* init */
+updateI18n(); renderProfile(); render(projects); countEl.textContent = projects.length;
+
+/* events */
+searchEl.addEventListener('input', debounce(update,160));
+filterEl.addEventListener('change', update);
+openLoginBtn.addEventListener('click', openLogin);
+editProfileBtn.addEventListener('click', openProfileEditor);
+modalBack.addEventListener('click', (e)=>{ if(e.target===modalBack) closeModal(); });
+langBtns.forEach(b=>b.addEventListener('click', ()=>{ langBtns.forEach(x=>x.classList.remove('active')); b.classList.add('active'); currentLang=b.dataset.lang; updateI18n(); }));
+sectionBtns.forEach(b=>b.addEventListener('click', ()=>{ sectionBtns.forEach(x=>x.classList.remove('active')); b.classList.add('active'); showSection(b.dataset.section); }));
+themeToggle.addEventListener('click', toggleTheme);
+
+/* render grid */
+function render(list){
+  grid.innerHTML=''; if(!list.length){ emptyEl.style.display='block'; return } emptyEl.style.display='none';
+  list.forEach((p,i)=>{
+    const card = document.createElement('article'); card.className='card'; card.style.setProperty('--delay', (i*40)+'ms');
+    card.innerHTML = `
+      <div>
+        <h3 class="title">${escapeHtml(p.title)}</h3>
+        <div class="desc">${escapeHtml(p.desc)}</div>
+        <div class="tags">${(p.tags||[]).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
+      </div>
+      <div class="actions">
+        <a class="link" href="${escapeAttr(p.repo)}" target="_blank" rel="noopener">${LANG[currentLang].openRepo}</a>
+        <div class="meta">${p.stars||0} ★</div>
+      </div>
+    `;
+    grid.appendChild(card);
+    // entrance animation
+    requestAnimationFrame(()=>setTimeout(()=>card.classList.add('visible'), i*60));
+    // tilt
+    card.addEventListener('pointermove', (e)=>{
+      const r = card.getBoundingClientRect(); const dx = e.clientX - (r.left + r.width/2); const dy = e.clientY - (r.top + r.height/2);
+      card.style.transform = `perspective(800px) rotateX(${(-dy/20)}deg) rotateY(${(dx/20)}deg) translateZ(0)`;
+    });
+    card.addEventListener('pointerleave', ()=>card.style.transform='');
+  });
+}
+
+/* search/filter */
+function matches(p,q,f){
+  const ql = (q||'').trim().toLowerCase();
+  if(ql){
+    if((p.title||'').toLowerCase().includes(ql)) return true;
+    if((p.desc||'').toLowerCase().includes(ql)) return true;
+    if((p.tags||[]).some(t=>t.toLowerCase().includes(ql))) return true;
+    return false;
+  }
+  if(f && f!=='all') return (p.tags||[]).includes(f);
+  return true;
+}
+function update(){ const q=searchEl.value; const f=filterEl.value; render(projects.filter(p=>matches(p,q,f))); }
+
+/* modal helpers */
+function openModal(html){ modal.innerHTML=html; modalBack.style.display='flex'; modalBack.setAttribute('aria-hidden','false'); }
+function closeModal(){ modalBack.style.display='none'; modal.innerHTML=''; modalBack.setAttribute('aria-hidden','true'); }
+
+/* login demo */
+function openLogin(){
+  const L = LANG[currentLang];
+  openModal(`
+    <h3>${L.login}</h3>
+    <p class="muted">${L.demoNote}</p>
+    <div class="form-row"><label>Username</label><input id="demo-user" type="text" placeholder="Creator" /></div>
+    <div class="form-row"><label>Password</label><input id="demo-pass" type="password" placeholder="netnet" /></div>
+    <div style="display:flex;justify-content:flex-end;gap:8px">
+      <button id="demo-login" class="btn primary">${L.login}</button>
+      <button id="modal-close" class="btn">${LANG[currentLang].edit}</button>
+    </div>
+  `);
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  document.getElementById('demo-login').addEventListener('click', ()=>{
+    const u = document.getElementById('demo-user').value.trim();
+    const p = document.getElementById('demo-pass').value;
+    if(u==='Creator' && p==='netnet'){
+      profile.loggedIn = true; profile.nick = profile.nick || 'Creator'; saveProfile(); renderProfile(); closeModal(); alert('Demo: увійшли');
+    } else alert('Невірний логін (демо)');
+  });
+}
+
+/* profile editor */
+function openProfileEditor(){
+  if(!profile.loggedIn){
+    if(!confirm('Ви не увійшли. Хочете використати демо-логін?')) return openLogin();
+  }
+  openModal(`
+    <h3>Редагувати профіль</h3>
+    <div class="form-row"><label>Нік (показується у логотипі)</label><input id="p-nick" type="text" maxlength="10" value="${escapeAttr(profile.nick||'NET')}" /></div>
+    <div class="form-row"><label>Ім'я</label><input id="p-name" type="text" value="${escapeAttr(profile.name||'Твоє імʼя')}" /></div>
+    <div class="form-row"><label>Про мене</label><textarea id="p-bio">${escapeHtml(profile.bio||'Короткий опис...')}</textarea></div>
+    <div class="form-row"><label>Ініціали аватару (1-2 літери)</label><input id="p-avatar" type="text" maxlength="2" value="${escapeAttr(profile.avatarInitials||getInitials(profile.name||profile.nick||'U'))}" /></div>
+    <div style="display:flex;justify-content:flex-end;gap:8px">
+      <button id="save-profile" class="btn primary">${LANG[currentLang].saved}</button>
+      <button id="close-profile" class="btn">Закрити</button>
+    </div>
+  `);
+  document.getElementById('close-profile').addEventListener('click', closeModal);
+  document.getElementById('save-profile').addEventListener('click', ()=>{
+    const nick = document.getElementById('p-nick').value.trim() || profile.nick || 'NET';
+    const name = document.getElementById('p-name').value.trim() || profile.name || 'Твоє імʼя';
+    const bio = document.getElementById('p-bio').value.trim();
+    const avatar = document.getElementById('p-avatar').value.trim().toUpperCase().slice(0,2) || getInitials(name);
+    profile.nick = nick; profile.name = name; profile.bio = bio; profile.avatarInitials = avatar; profile.loggedIn = true;
+    saveProfile(); renderProfile(); closeModal(); alert(LANG[currentLang].saved);
+  });
+}
+
+/* profile render/save/load */
+function renderProfile(){
+  avatarPreview.textContent = profile.avatarInitials || getInitials(profile.name||profile.nick||'U');
+  profileNameEl.textContent = profile.name || 'Гість';
+  profileBioEl.textContent = profile.bio || (profile.loggedIn ? 'Редагуйте профіль' : 'Увійдіть щоб редагувати');
+  logoNick.textContent = (profile.nick||'NET').slice(0,4).toUpperCase();
+  footerName.textContent = profile.name || 'Твоє імʼя';
+}
+function saveProfile(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(profile)); }
+function loadProfile(){ try{ const raw = localStorage.getItem(STORAGE_KEY); if(raw) return JSON.parse(raw); }catch(e){} return { nick:'NET', name:'Гість', bio:'', avatarInitials:'U', loggedIn:false }; }
+
+/* i18n */
+function updateI18n(){
+  document.getElementById('main-title').textContent = LANG[currentLang].title;
+  document.getElementById('main-sub').textContent = LANG[currentLang].sub;
+  openLoginBtn.textContent = LANG[currentLang].login;
+  editProfileBtn.textContent = LANG[currentLang].edit;
+  // update project cards label for openRepo (re-render)
+  render(projects.filter(p=>matches(p,searchEl.value,filterEl.value)));
+}
+
+/* utilities */
+function escapeHtml(s){ return String(s||'').replace(/[&<>"]/g, ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+function escapeAttr(s){ return escapeHtml(s).replace(/"/g,'&quot;') }
+function debounce(fn,ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); } }
+function getInitials(name){ if(!name) return 'U'; return name.split(' ').map(s=>s[0]||'').join('').slice(0,2).toUpperCase(); }
+
+/* show sections */
+function showSection(name){
+  document.getElementById('projects-section').style.display = name==='projects' ? '' : 'none';
+  document.getElementById('about-section').style.display = name==='about' ? '' : 'none';
+  document.getElementById('contacts-section').style.display = name==='contacts' ? '' : 'none';
+}
+
+/* theme toggle (simple invert neon) */
+let neonMode = true;
+function toggleTheme(){
+  neonMode = !neonMode;
+  if(!neonMode){
+    document.documentElement.style.setProperty('--accent1','#9be7ff');
+    document.documentElement.style.setProperty('--accent2','#ffd6ff');
+    document.documentElement.style.setProperty('--neon','#ffd6d6');
+  } else {
+    document.documentElement.style.setProperty('--accent1','#7dd3fc');
+    document.documentElement.style.setProperty('--accent2','#a78bfa');
+    document.documentElement.style.setProperty('--neon','#00f0ff');
+  }
+}
+
+/* initial profile load */
+function loadProfile(){
+  try{ const raw = localStorage.getItem(STORAGE_KEY); if(raw) return JSON.parse(raw); }catch(e){}
+  return { nick:'NET', name:'Гість', bio:'', avatarInitials:'U', loggedIn:false };
+}
+
+/* helper matches referenced earlier */
+function matches(p,q,f){
+  const ql = (q||'').trim().toLowerCase();
+  if(ql){
+    if((p.title||'').toLowerCase().includes(ql)) return true;
+    if((p.desc||'').toLowerCase().includes(ql)) return true;
+    if((p.tags||[]).some(t=>t.toLowerCase().includes(ql))) return false ? false : true;
+  }
+  if(f && f!=='all') return (p.tags||[]).includes(f);
+  return true;
+}
+
+/* End */
+</script>
+</body>
+</html>
