@@ -1,416 +1,679 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="uk">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Портфоліо Open Source — Demo</title>
-<meta name="description" content="Показ моїх Open Source проектів — демо" />
-<style>
-  :root{
-    --bg:#071029; --card:#0b1220; --muted:#9aa6bd; --accent:#7dd3fc;
-    --glass: rgba(255,255,255,0.03); --radius:14px; --gap:18px;
-    --maxw:1100px;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;background:
-    radial-gradient(800px 400px at 10% 10%, rgba(45,55,72,0.12), transparent),
-    linear-gradient(180deg,#071029 0%, #020612 100%); color:#e6eef8; padding:32px; display:flex; justify-content:center;}
-  .wrap{width:100%;max-width:var(--maxw)}
-  header{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:20px}
-  .brand{display:flex;gap:12px;align-items:center}
-  .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#60a5fa);display:grid;place-items:center;color:#02242f;font-weight:800;box-shadow:0 10px 30px rgba(2,6,23,0.6)}
-  h1{margin:0;font-size:18px}
-  .lead{margin:0;color:var(--muted);font-size:13px}
-  .controls{display:flex;gap:10px;align-items:center}
-  .input, .select, .btn{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border:1px solid var(--glass);padding:10px 12px;border-radius:12px;color:var(--muted);outline:none}
-  .btn{cursor:pointer;color:#e6eef8;background:linear-gradient(90deg,#0f1724,#0d1b2b);border:1px solid rgba(255,255,255,0.03)}
-  main{display:block}
-  .topbar{display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap}
-  .profile-preview{display:flex;align-items:center;gap:12px}
-  .avatar{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,#112734,#0b1a2a);display:grid;place-items:center;font-weight:700;color:var(--accent)}
-  .lang-switch{display:flex;gap:6px}
-  .lang-switch button{padding:6px 8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--muted);cursor:pointer}
-  .lang-switch button.active{color:#04293a;background:var(--accent);font-weight:700}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--gap)}
-  .card{position:relative;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:16px;border-radius:var(--radius);min-height:150px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 8px 24px rgba(2,6,23,0.6);transition:transform .28s,box-shadow .28s;overflow:hidden}
-  .card:hover{transform:translateY(-8px) scale(1.01);box-shadow:0 18px 40px rgba(2,6,23,0.75)}
-  .card h3{margin:0 0 6px 0}
-  .desc{color:var(--muted);font-size:13px;margin-bottom:10px}
-  .tags{display:flex;gap:8px;flex-wrap:wrap}
-  .tag{font-size:12px;padding:6px 8px;border-radius:999px;background:rgba(125,211,252,0.06);border:1px solid rgba(125,211,252,0.08);color:var(--accent)}
-  .actions{display:flex;gap:8px;align-items:center;margin-top:auto}
-  .link{padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--accent);text-decoration:none;font-weight:600}
-  .stars{margin-left:auto;color:var(--muted);font-size:13px}
-  .card.hidden{display:none}
-  /* enter animation */
-  .card{opacity:0;transform:translateY(18px) scale(.995)}
-  .card.visible{opacity:1;transform:none;transition:opacity .6s ease, transform .6s cubic-bezier(.2,.9,.3,1)}
-  /* modal */
-  .modal-back{position:fixed;inset:0;background:rgba(2,6,23,0.6);display:none;align-items:center;justify-content:center;z-index:40}
-  .modal{background:linear-gradient(180deg,#07122a,#041124);padding:18px;border-radius:12px;width:100%;max-width:520px;border:1px solid rgba(255,255,255,0.03)}
-  .form-row{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
-  label{font-size:13px;color:var(--muted)}
-  input[type="text"], input[type="password"], textarea{padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit;outline:none}
-  textarea{min-height:90px;resize:vertical}
-  .small{font-size:13px;color:var(--muted)}
-  .empty{padding:40px;border-radius:12px;text-align:center;color:var(--muted);background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);border:1px dashed rgba(255,255,255,0.02)}
-  footer{margin-top:20px;color:var(--muted);font-size:13px;text-align:center}
-  @media (max-width:640px){header{flex-direction:column;align-items:flex-start} .controls{width:100%;justify-content:space-between}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Open Source Projects</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #2ecc71;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .language-selector {
+            display: flex;
+            gap: 10px;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .auth-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .auth-btn:hover {
+            background-color: #2980b9;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 150px 0 100px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: var(--transition);
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .cta-button:hover {
+            background-color: #c0392b;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Projects Section */
+        .projects {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-color);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .project-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-image {
+            height: 200px;
+            background-color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .project-content {
+            padding: 20px;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+
+        .project-description {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .tech-tag {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .project-link {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .github-link {
+            background-color: var(--dark-color);
+            color: white;
+        }
+
+        .demo-link {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .project-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* About Section */
+        .about {
+            background-color: var(--light-color);
+            padding: 100px 0;
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .profile-img {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 5rem;
+            margin: 0 auto;
+            box-shadow: var(--shadow);
+            animation: pulse 2s infinite;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .footer-section {
+            flex: 1;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+            transition: var(--transition);
+        }
+
+        .close-modal:hover {
+            color: var(--accent-color);
+        }
+
+        .modal h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .submit-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            display: none;
+        }
+
+        .success {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: var(--success-color);
+        }
+
+        .error {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: var(--accent-color);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                margin-top: 15px;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .about-content {
+                flex-direction: column;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 30px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="wrap">
+    <!-- Header -->
     <header>
-      <div class="brand">
-        <div class="logo">OS</div>
-        <div>
-          <h1 id="title">Мої Open Source проєкти</h1>
-          <p class="lead" id="subtitle">Колекція репозиторіїв з описами, тегами та посиланнями.</p>
+        <div class="container header-content">
+            <div class="logo">
+                <i>💻</i> <span data-lang="logo">Мої проекти</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#projects" data-lang="nav-projects">Проекти</a></li>
+                    <li><a href="#about" data-lang="nav-about">Про мене</a></li>
+                    <li><a href="#contact" data-lang="nav-contact">Контакти</a></li>
+                </ul>
+            </nav>
+            <div class="language-selector">
+                <button class="lang-btn active" data-lang="uk">УКР</button>
+                <button class="lang-btn" data-lang="ru">РУС</button>
+                <button class="lang-btn" data-lang="en">ENG</button>
+            </div>
+            <button class="auth-btn" id="loginBtn" data-lang="login">Увійти</button>
         </div>
-      </div>
-
-      <div class="controls">
-        <input id="search" class="input" placeholder="Пошук: назва, опис, теги..." />
-        <select id="filter" class="select" title="Фільтр">
-          <option value="all">Всі</option>
-          <option value="js">JavaScript</option>
-          <option value="py">Python</option>
-          <option value="lib">Бібліотеки</option>
-          <option value="app">Додатки</option>
-        </select>
-        <button id="open-login" class="btn">Вхід</button>
-      </div>
     </header>
 
-    <div class="topbar">
-      <div class="profile-preview" aria-hidden="false">
-        <div class="avatar" id="avatar-preview">U</div>
-        <div>
-          <div id="profile-name">Гість</div>
-          <div class="small" id="profile-bio">Увійдіть, щоб редагувати профіль</div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h1 data-lang="hero-title">Мої Open Source проекти</h1>
+            <p data-lang="hero-text">Тут ви знайдете колекцію моїх проектів з відкритим кодом, які я розробив. Всі вони доступні на GitHub.</p>
+            <a href="#projects" class="cta-button" data-lang="hero-cta">Переглянути проекти</a>
         </div>
-      </div>
+    </section>
 
-      <div style="margin-left:auto;display:flex;align-items:center;gap:12px">
-        <div class="lang-switch" role="tablist" aria-label="Мова">
-          <button data-lang="uk" class="active">🇺🇦 УКР</button>
-          <button data-lang="ru">🇷🇺 РУС</button>
-          <button data-lang="en">🇬🇧 ENG</button>
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <div class="container">
+            <h2 class="section-title" data-lang="projects-title">Мої проекти</h2>
+            <div class="projects-grid" id="projectsGrid">
+                <!-- Projects will be added dynamically with JavaScript -->
+            </div>
         </div>
-        <button id="edit-profile" class="btn" title="Редагувати профіль">Редагувати профіль</button>
-      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2 class="section-title" data-lang="about-title">Про мене</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p data-lang="about-text-1">Я розробник з пристрастю до створення якісного програмного забезпечення з відкритим кодом. Моя мета - робити внесок у спільноту розробників та навчатися через співпрацю.</p>
+                    <p data-lang="about-text-2">У вільний час я люблю експериментувати з новими технологіями, вивчати нові мови програмування та співпрацювати з іншими розробниками над цікавими проектами.</p>
+                </div>
+                <div class="about-image">
+                    <div class="profile-img">
+                        <i>👨‍💻</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 data-lang="footer-contact">Контакти</h3>
+                    <p data-lang="footer-email">Email: developer@example.com</p>
+                    <p data-lang="footer-github">GitHub: github.com/yourusername</p>
+                </div>
+                <div class="footer-section">
+                    <h3 data-lang="footer-links">Корисні посилання</h3>
+                    <p><a href="#projects" data-lang="nav-projects">Проекти</a></p>
+                    <p><a href="#about" data-lang="nav-about">Про мене</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3 data-lang="footer-follow">Слідкуйте за мною</h3>
+                    <p>GitHub</p>
+                    <p>LinkedIn</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p data-lang="footer-copyright">&copy; 2023 Мої Open Source проекти. Всі права захищені.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 data-lang="login-title">Вхід для творця</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username" data-lang="login-username">Логін:</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password" data-lang="login-password">Пароль:</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="submit-btn" data-lang="login-submit">Увійти</button>
+            </form>
+            <div class="message" id="loginMessage"></div>
+        </div>
     </div>
 
-    <main>
-      <div id="grid" class="grid" aria-live="polite"></div>
-      <div id="empty" class="empty" style="display:none;margin-top:18px">Проєкти не знайдено — спробуйте змінити пошук або фільтр.</div>
-    </main>
-
-    <footer id="footer">© Твоє ім'я — портфоліо</footer>
-  </div>
-
-  <!-- Modal (login + profile) -->
-  <div id="modal-back" class="modal-back" role="dialog" aria-hidden="true">
-    <div class="modal" id="modal">
-      <div id="modal-content"></div>
-    </div>
-  </div>
-
-<script>
-/* ========== Дані про проекти ==========
-   Замініть масив projects на свої репозиторії або додайте посилання.
-   Формат: { title, desc, tags:[], repo, stars }
-   Якщо у тебе є список посилань — просто встав їх сюди.
-*/
-const projects = [
-  {
-    title: "lib-visualizer",
-    desc: "Бібліотека для візуалізації даних у браузері.",
-    tags: ["js","lib","viz"],
-    repo: "https://github.com/yourname/lib-visualizer",
-    stars: 142
-  },
-  {
-    title: "cli-toolbox",
-    desc: "Набір зручних CLI-утиліт на Python.",
-    tags: ["py","app","cli"],
-    repo: "https://github.com/yourname/cli-toolbox",
-    stars: 58
-  },
-  {
-    title: "design-system",
-    desc: "Компоненти та токени для UI (SCSS).",
-    tags: ["lib","css","design"],
-    repo: "https://github.com/yourname/design-system",
-    stars: 321
-  }
-];
-
-/* ========== Локальне збереження профілю ==========
-   Profile зберігається в localStorage як 'os_portfolio_profile'
-   Формат: { name, bio, avatarInitials, loggedIn }.
-*/
-const STORAGE_KEY = 'os_portfolio_profile';
-let profile = loadProfile();
-
-/* ========== Мова за замовчуванням = uk ==========
-   Переклади для простого інтерфейсу.
-*/
-const LANG = {
-  uk: {
-    title: "Мої Open Source проєкти",
-    subtitle: "Колекція репозиторіїв з описами, тегами та посиланнями.",
-    editProfile: "Редагувати профіль",
-    login: "Вхід",
-    logout: "Вийти",
-    empty: "Проєкти не знайдено — спробуйте змінити пошук або фільтр.",
-    loginTitle: "Вхід (демо)",
-    userPlaceholder: "Ім'я користувача",
-    passPlaceholder: "Пароль",
-    loginBtn: "Увійти",
-    close: "Закрити",
-    profileSaved: "Профіль збережено",
-    demoNote: "Демо-логін: Creator / netnet"
-  },
-  ru: {
-    title: "Мои Open Source проекты",
-    subtitle: "Коллекция репозиториев с описаниями, тегами и ссылками.",
-    editProfile: "Редактировать профиль",
-    login: "Вход",
-    logout: "Выйти",
-    empty: "Проекты не найдены — попробуйте изменить поиск или фильтр.",
-    loginTitle: "Вход (демо)",
-    userPlaceholder: "Имя пользователя",
-    passPlaceholder: "Пароль",
-    loginBtn: "Войти",
-    close: "Закрыть",
-    profileSaved: "Профиль сохранён",
-    demoNote: "Демо-логин: Creator / netnet"
-  },
-  en: {
-    title: "My Open Source Projects",
-    subtitle: "A collection of repositories with descriptions, tags and links.",
-    editProfile: "Edit profile",
-    login: "Sign in",
-    logout: "Sign out",
-    empty: "No projects found — try changing search or filter.",
-    loginTitle: "Sign in (demo)",
-    userPlaceholder: "Username",
-    passPlaceholder: "Password",
-    loginBtn: "Sign in",
-    close: "Close",
-    profileSaved: "Profile saved",
-    demoNote: "Demo login: Creator / netnet"
-  }
-};
-let currentLang = 'uk';
-
-/* ========== DOM refs =========*/
-const grid = document.getElementById('grid');
-const searchEl = document.getElementById('search');
-const filterEl = document.getElementById('filter');
-const emptyEl = document.getElementById('empty');
-const avatarPreview = document.getElementById('avatar-preview');
-const profileNameEl = document.getElementById('profile-name');
-const profileBioEl = document.getElementById('profile-bio');
-const editProfileBtn = document.getElementById('edit-profile');
-const openLoginBtn = document.getElementById('open-login');
-const modalBack = document.getElementById('modal-back');
-const modalContent = document.getElementById('modal-content');
-const langButtons = document.querySelectorAll('.lang-switch button');
-const titleEl = document.getElementById('title');
-const subtitleEl = document.getElementById('subtitle');
-const footerEl = document.getElementById('footer');
-
-/* ========== Инициализация =========*/
-updateI18n();
-renderProfile();
-render(projects);
-
-/* ========== Event Listeners =========*/
-searchEl.addEventListener('input', debounce(update, 160));
-filterEl.addEventListener('change', update);
-openLoginBtn.addEventListener('click', openLogin);
-editProfileBtn.addEventListener('click', openProfileEditor);
-
-langButtons.forEach(b=>{
-  b.addEventListener('click', ()=>{
-    langButtons.forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
-    currentLang = b.dataset.lang;
-    updateI18n();
-  });
-});
-
-/* ========== Render functions =========*/
-function render(list){
-  grid.innerHTML = '';
-  if(!list.length){ emptyEl.style.display='block'; return }
-  emptyEl.style.display='none';
-  list.forEach((p,i)=>{
-    const card = document.createElement('article');
-    card.className = 'card';
-    card.style.setProperty('--delay', (i*50)+'ms');
-    card.innerHTML = `
-      <div>
-        <h3>${escapeHtml(p.title)}</h3>
-        <div class="desc">${escapeHtml(p.desc)}</div>
-        <div class="tags">${(p.tags||[]).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
-      </div>
-      <div class="actions">
-        <a class="link" href="${escapeAttr(p.repo)}" target="_blank" rel="noopener">${translate('openRepo','Відкрити')}</a>
-        <div class="stars">⭐ ${p.stars||0}</div>
-      </div>
-    `;
-    grid.appendChild(card);
-    // entrance
-    requestAnimationFrame(()=>setTimeout(()=>card.classList.add('visible'), i*70));
-    // tilt
-    card.addEventListener('pointermove', (e)=>{
-      const rect = card.getBoundingClientRect();
-      const dx = e.clientX - (rect.left + rect.width/2);
-      const dy = e.clientY - (rect.top + rect.height/2);
-      card.style.transform = `perspective(800px) rotateX(${(-dy/20)}deg) rotateY(${(dx/20)}deg) translateZ(0)`;
-    });
-    card.addEventListener('pointerleave', ()=>{ card.style.transform = '' });
-  });
-}
-
-/* ========== Search / filter =========*/
-function matches(p, q, filter){
-  const ql = (q||'').trim().toLowerCase();
-  if(ql){
-    if((p.title||'').toLowerCase().includes(ql)) return true;
-    if((p.desc||'').toLowerCase().includes(ql)) return true;
-    if((p.tags||[]).some(t=>t.toLowerCase().includes(ql))) return true;
-    return false;
-  }
-  if(filter && filter!=='all') return (p.tags||[]).includes(filter);
-  return true;
-}
-
-function update(){
-  const q = searchEl.value;
-  const f = filterEl.value;
-  const filtered = projects.filter(p=>matches(p,q,f));
-  render(filtered);
-}
-
-/* ========== Modal (login/profile) =========*/
-function openModal(html){ modalContent.innerHTML = html; modalBack.style.display='flex'; modalBack.setAttribute('aria-hidden','false'); }
-function closeModal(){ modalBack.style.display='none'; modalBack.setAttribute('aria-hidden','true'); modalContent.innerHTML=''; }
-modalBack.addEventListener('click', (e)=>{ if(e.target===modalBack) closeModal(); });
-
-/* ========== Login (demo) =========*/
-function openLogin(){
-  const L = LANG[currentLang];
-  openModal(`
-    <h3>${L.loginTitle}</h3>
-    <p class="small">${L.demoNote}</p>
-    <div class="form-row">
-      <label>${L.userPlaceholder}</label>
-      <input id="demo-user" type="text" placeholder="${L.userPlaceholder}" />
-    </div>
-    <div class="form-row">
-      <label>${L.passPlaceholder}</label>
-      <input id="demo-pass" type="password" placeholder="${L.passPlaceholder}" />
-    </div>
-    <div style="display:flex;gap:8px;justify-content:flex-end">
-      <button id="demo-login" class="btn">${L.loginBtn}</button>
-      <button id="modal-close" class="btn">${L.close}</button>
-    </div>
-  `);
-  document.getElementById('modal-close').addEventListener('click', closeModal);
-  document.getElementById('demo-login').addEventListener('click', ()=>{
-    const u = document.getElementById('demo-user').value.trim();
-    const p = document.getElementById('demo-pass').value;
-    // Демонстраційна локальна перевірка
-    if(u === 'Creator' && p === 'netnet'){
-      profile.loggedIn = true;
-      profile.name = profile.name || 'Creator';
-      saveProfile();
-      renderProfile();
-      closeModal();
-      alert('Успіх — ви увійшли в демо-режим');
-    } else {
-      alert('Невірний логін або пароль (демо)');
-    }
-  });
-}
-
-/* ========== Profile editor =========*/
-function openProfileEditor(){
-  if(!profile.loggedIn){
-    if(!confirm('Ви не авторизовані. Виконати демо-вхід?')) return;
-    openLogin(); return;
-  }
-  const L = LANG[currentLang];
-  openModal(`
-    <h3>Редагування профілю</h3>
-    <div class="form-row"><label>Ім'я</label><input id="p-name" type="text" value="${escapeAttr(profile.name||'')}" /></div>
-    <div class="form-row"><label>Про мене</label><textarea id="p-bio">${escapeHtml(profile.bio||'')}</textarea></div>
-    <div class="form-row"><label>Ініціали аватара (1-2 літери)</label><input id="p-avatar" type="text" maxlength="2" value="${escapeAttr(profile.avatarInitials||getInitials(profile.name))}" /></div>
-    <div style="display:flex;gap:8px;justify-content:flex-end">
-      <button id="save-profile" class="btn">${L.profileSaved}</button>
-      <button id="close-profile" class="btn">${L.close}</button>
-    </div>
-  `);
-  document.getElementById('close-profile').addEventListener('click', closeModal);
-  document.getElementById('save-profile').addEventListener('click', ()=>{
-    const name = document.getElementById('p-name').value.trim() || 'Creator';
-    const bio = document.getElementById('p-bio').value.trim();
-    const avatar = document.getElementById('p-avatar').value.trim().toUpperCase().slice(0,2) || getInitials(name);
-    profile.name = name; profile.bio = bio; profile.avatarInitials = avatar; profile.loggedIn = true;
-    saveProfile();
-    renderProfile();
-    closeModal();
-    alert(L.profileSaved);
-  });
-}
-
-/* ========== Profile render/save/load =========*/
-function renderProfile(){
-  avatarPreview.textContent = profile.avatarInitials || getInitials(profile.name || 'Гість');
-  profileNameEl.textContent = profile.name || 'Гість';
-  profileBioEl.textContent = profile.bio || (profile.loggedIn ? 'Редагуйте свій профіль' : 'Увійдіть, щоб редагувати профіль');
-  // кнопка редагування visible only when logged in? we keep visible but will ask to login
-}
-
-function saveProfile(){
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
-}
-function loadProfile(){
-  try{
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if(raw) return JSON.parse(raw);
-  }catch(e){}
-  return { name: 'Гість', bio: '', avatarInitials:'U', loggedIn:false };
-}
-
-/* ========== I18n helpers =========*/
-function updateI18n(){
-  const L = LANG[currentLang];
-  titleEl.textContent = L.title;
-  subtitleEl.textContent = L.subtitle;
-  document.getElementById('open-login').textContent = L.login;
-  editProfileBtn.textContent = L.editProfile;
-  emptyEl.textContent = L.empty;
-  footerEl.textContent = '© Твоє ім\'я — портфоліо';
-}
-
-/* ========== Utilities =========*/
-function escapeHtml(s){ return String(s||'').replace(/[&<>"]/g, ch=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[ch])); }
-function escapeAttr(s){ return escapeHtml(s).replace(/"/g,'&quot;') }
-function debounce(fn, ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); } }
-function getInitials(name){ if(!name) return 'U'; return (name.split(' ').map(s=>s[0]||'').join('').slice(0,2) || name.slice(0,1)).toUpperCase(); }
-function translate(key, fallback){ const t = LANG[currentLang] && LANG[currentLang][key]; return t||fallback||key; }
-
-/* ========== Optional: allow user to programmatically set projects =========*/
-/* Example: after user provides links you can run something like:
-   projects.length = 0; projects.push(...MY_PROJECTS_ARRAY); render(projects);
-*/
-
-/* End of script */
-</script>
-</body>
-  </html>
+    <script>
+        // Language data
+        const translations = {
+            uk: {
+                "logo": "Мої проекти",
+                "nav-projects": "Проекти",
+                "nav-about": "Про мене",
+                "nav-contact": "Контакти",
+                "login": "Увійти",
+                "hero-title": "Мої Open Source проекти",
+                "hero-text": "Тут ви знайдете колекцію моїх проектів з відкритим кодом, які я розробив. Всі вони доступні на GitHub.",
+                "hero-cta": "Переглянути проекти",
+                "projects-title": "Мої проекти",
+                "about-title": "Про мене",
+                "about-text-1": "Я розробник з пристрастю до створення якісного програмного забезпечення з відкритим кодом. Моя мета - робити внесок у спільноту розробників та навчатися через співпрацю.",
+                "about-text-2": "У вільний час я люблю експериментувати з новими технологіями, вивчати нові мови програмування та співпрацювати з іншими розробниками над цікавими проектами.",
+                "footer-contact": "Контакти",
+                "footer-email": "Email: developer@example.com",
+                "footer-github": "GitHub: github.com/yourusername",
+                "footer-links": "Корисні посилання",
+                "footer-follow": "Слідкуйте за мною",
+                "footer-copyright": "© 2023 Мої Open Source проекти. Всі права захищені.",
+                "login-title": "Вхід для творця",
+                "login-username": "Логін:",
+                "login-password": "Пароль:",
+                "login-submit": "Увійти",
+                "login-success": "Успішний вхід!",
+                "login-error": "Невірний логін або пароль!",
+                "project-github": "GitHub",
+                "project-demo": "Демо"
+            },
+            ru: {
+                "logo": "Мои проекты",
+                "nav-projects": "Проекты",
+                "nav-about": "Обо мне",
+                "nav-contact": "Контакты",
+                "login": "Войти",
+                "hero-title": "Мои Open Source проекты",
+                "hero-text": "Здесь вы найдете коллекцию моих проектов с открытым исходным кодом, которые я разработал. Все они доступны на GitHub.",
+                "hero-cta": "Посмотреть проекты",
+                "projects-title": "Мои проекты",
+                "about-title": "Обо мне",
+                "about-text-1": "Я разработчик со страстью к созданию ка
