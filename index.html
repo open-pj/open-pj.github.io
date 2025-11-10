@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Open Source Projects</title>
+    <title>DevPortfolio - Мої проекти</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #3498db;
-            --secondary-color: #2c3e50;
-            --accent-color: #e74c3c;
-            --light-color: #ecf0f1;
-            --dark-color: #2c3e50;
-            --success-color: #2ecc71;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
+            --primary: #6C63FF;
+            --secondary: #4A44C6;
+            --accent: #FF6584;
+            --dark: #2A2D3E;
+            --light: #F7F9FC;
+            --text: #333333;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         * {
@@ -24,8 +25,8 @@
         }
 
         body {
-            background-color: #f5f7fa;
-            color: var(--dark-color);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--text);
             line-height: 1.6;
             overflow-x: hidden;
         }
@@ -39,14 +40,16 @@
 
         /* Header Styles */
         header {
-            background-color: var(--secondary-color);
-            color: white;
-            padding: 1rem 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            color: var(--dark);
+            padding: 1.2rem 0;
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
             box-shadow: var(--shadow);
+            transition: var(--transition);
         }
 
         .header-content {
@@ -56,15 +59,16 @@
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
+            font-size: 1.8rem;
+            font-weight: 700;
             display: flex;
             align-items: center;
+            color: var(--primary);
         }
 
         .logo i {
             margin-right: 10px;
-            color: var(--primary-color);
+            font-size: 1.5rem;
         }
 
         nav ul {
@@ -73,60 +77,95 @@
         }
 
         nav ul li {
-            margin-left: 1.5rem;
+            margin-left: 1.8rem;
         }
 
         nav ul li a {
-            color: white;
+            color: var(--dark);
             text-decoration: none;
+            font-weight: 500;
             transition: var(--transition);
-            padding: 5px 10px;
-            border-radius: 4px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            position: relative;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+            transform: translateX(-50%);
+        }
+
+        nav ul li a:hover::after {
+            width: 80%;
         }
 
         nav ul li a:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
         .language-selector {
             display: flex;
-            gap: 10px;
+            gap: 8px;
+            background: rgba(108, 99, 255, 0.1);
+            padding: 6px;
+            border-radius: 8px;
         }
 
         .lang-btn {
             background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 4px;
+            border: none;
+            color: var(--dark);
+            padding: 6px 12px;
+            border-radius: 6px;
             cursor: pointer;
             transition: var(--transition);
+            font-weight: 500;
         }
 
         .lang-btn:hover, .lang-btn.active {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
+            background-color: var(--primary);
+            color: white;
         }
 
         .auth-btn {
-            background-color: var(--primary-color);
+            background-color: var(--primary);
             color: white;
             border: none;
-            padding: 8px 15px;
-            border-radius: 4px;
+            padding: 10px 20px;
+            border-radius: 30px;
             cursor: pointer;
             transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
         }
 
         .auth-btn:hover {
-            background-color: #2980b9;
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(108, 99, 255, 0.4);
         }
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
-            padding: 150px 0 100px;
+            padding: 180px 0 100px;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -151,70 +190,78 @@
         }
 
         .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
             animation: fadeInUp 1s ease;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
         .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
             animation: fadeInUp 1s ease 0.2s both;
+            opacity: 0.9;
         }
 
         .cta-button {
             display: inline-block;
-            background-color: var(--accent-color);
+            background-color: var(--accent);
             color: white;
-            padding: 12px 30px;
+            padding: 15px 35px;
             border-radius: 30px;
             text-decoration: none;
             font-weight: bold;
             transition: var(--transition);
             animation: fadeInUp 1s ease 0.4s both;
+            box-shadow: 0 4px 15px rgba(255, 101, 132, 0.4);
+            font-size: 1.1rem;
         }
 
         .cta-button:hover {
-            background-color: #c0392b;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            background-color: #ff4d6d;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 101, 132, 0.5);
         }
 
         /* Projects Section */
         .projects {
             padding: 100px 0;
+            background-color: var(--light);
         }
 
         .section-title {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
             position: relative;
+            font-size: 2.5rem;
+            color: var(--dark);
         }
 
         .section-title::after {
             content: '';
             display: block;
-            width: 80px;
-            height: 4px;
-            background-color: var(--primary-color);
-            margin: 10px auto;
-            border-radius: 2px;
+            width: 100px;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            margin: 15px auto;
+            border-radius: 3px;
         }
 
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 30px;
         }
 
         .project-card {
             background-color: white;
-            border-radius: 10px;
+            border-radius: 15px;
             overflow: hidden;
             box-shadow: var(--shadow);
             transition: var(--transition);
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(30px);
+            position: relative;
         }
 
         .project-card.visible {
@@ -223,93 +270,116 @@
         }
 
         .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            transform: translateY(-15px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         }
 
         .project-image {
             height: 200px;
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 3rem;
+            font-size: 3.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.1);
         }
 
         .project-content {
-            padding: 20px;
+            padding: 25px;
         }
 
         .project-title {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+            color: var(--dark);
         }
 
         .project-description {
             color: #666;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            line-height: 1.7;
         }
 
         .project-tech {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 15px;
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
         .tech-tag {
-            background-color: var(--light-color);
-            color: var(--dark-color);
-            padding: 4px 10px;
+            background: rgba(108, 99, 255, 0.1);
+            color: var(--primary);
+            padding: 6px 12px;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
+            font-weight: 500;
         }
 
         .project-links {
             display: flex;
-            gap: 10px;
+            gap: 12px;
         }
 
         .project-link {
-            display: inline-block;
-            padding: 8px 15px;
-            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 30px;
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 600;
             transition: var(--transition);
+            flex: 1;
+            justify-content: center;
         }
 
         .github-link {
-            background-color: var(--dark-color);
+            background-color: var(--dark);
             color: white;
         }
 
         .demo-link {
-            background-color: var(--primary-color);
+            background-color: var(--primary);
             color: white;
         }
 
         .project-link:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         /* About Section */
         .about {
-            background-color: var(--light-color);
             padding: 100px 0;
+            background: white;
         }
 
         .about-content {
             display: flex;
             align-items: center;
-            gap: 50px;
+            gap: 60px;
         }
 
         .about-text {
             flex: 1;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
         }
 
         .about-image {
@@ -318,31 +388,135 @@
         }
 
         .profile-img {
-            width: 300px;
-            height: 300px;
+            width: 350px;
+            height: 350px;
             border-radius: 50%;
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 5rem;
+            font-size: 6rem;
             margin: 0 auto;
             box-shadow: var(--shadow);
-            animation: pulse 2s infinite;
+            animation: pulse 3s infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-img::after {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(45deg);
+            animation: shine 5s infinite;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .skill {
+            background: var(--light);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 500;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .skill:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .contact h2 {
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            transition: var(--transition);
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(255, 101, 132, 0.4);
+        }
+
+        .submit-btn:hover {
+            background-color: #ff4d6d;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 101, 132, 0.5);
         }
 
         /* Footer */
         footer {
-            background-color: var(--secondary-color);
+            background-color: var(--dark);
             color: white;
-            padding: 50px 0 20px;
+            padding: 60px 0 20px;
         }
 
         .footer-content {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
 
         .footer-section {
@@ -353,6 +527,7 @@
             margin-bottom: 20px;
             position: relative;
             padding-bottom: 10px;
+            font-size: 1.3rem;
         }
 
         .footer-section h3::after {
@@ -361,14 +536,40 @@
             bottom: 0;
             left: 0;
             width: 50px;
-            height: 2px;
-            background-color: var(--primary-color);
+            height: 3px;
+            background: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
         }
 
         .footer-bottom {
             text-align: center;
             padding-top: 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            opacity: 0.7;
         }
 
         /* Modal Styles */
@@ -379,40 +580,49 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.7);
             z-index: 2000;
             align-items: center;
             justify-content: center;
+            backdrop-filter: blur(5px);
         }
 
         .modal-content {
             background-color: white;
-            padding: 30px;
-            border-radius: 10px;
+            padding: 40px;
+            border-radius: 15px;
             width: 90%;
-            max-width: 400px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 450px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
             position: relative;
-            animation: modalFadeIn 0.3s ease;
+            animation: modalFadeIn 0.4s ease;
         }
 
         .close-modal {
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: 20px;
+            right: 20px;
             font-size: 1.5rem;
             cursor: pointer;
             color: #999;
             transition: var(--transition);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
         }
 
         .close-modal:hover {
-            color: var(--accent-color);
+            color: var(--accent);
+            background: rgba(0, 0, 0, 0.05);
         }
 
         .modal h2 {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             text-align: center;
+            color: var(--dark);
         }
 
         .form-group {
@@ -421,57 +631,70 @@
 
         .form-group label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark);
         }
 
         .form-group input {
             width: 100%;
-            padding: 10px;
+            padding: 12px 15px;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 8px;
             font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
         }
 
         .submit-btn {
             width: 100%;
-            padding: 12px;
-            background-color: var(--primary-color);
+            padding: 14px;
+            background-color: var(--primary);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
+            margin-top: 10px;
         }
 
         .submit-btn:hover {
-            background-color: #2980b9;
+            background-color: var(--secondary);
         }
 
         .message {
             margin-top: 15px;
-            padding: 10px;
-            border-radius: 4px;
+            padding: 12px;
+            border-radius: 8px;
             text-align: center;
             display: none;
+            font-weight: 500;
         }
 
         .success {
             background-color: rgba(46, 204, 113, 0.2);
-            color: var(--success-color);
+            color: #27ae60;
+            border: 1px solid #27ae60;
         }
 
         .error {
             background-color: rgba(231, 76, 60, 0.2);
-            color: var(--accent-color);
+            color: #e74c3c;
+            border: 1px solid #e74c3c;
         }
 
         /* Animations */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(40px);
             }
             to {
                 opacity: 1;
@@ -491,189 +714,69 @@
             }
         }
 
+        @keyframes shine {
+            0% {
+                left: -100%;
+            }
+            20% {
+                left: 100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
         @keyframes modalFadeIn {
             from {
                 opacity: 0;
-                transform: translateY(-50px);
+                transform: translateY(-60px) scale(0.9);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
             }
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.4);
+            transition: var(--transition);
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: var(--secondary);
+            transform: translateY(-5px);
         }
 
         /* Responsive Styles */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            nav ul {
-                margin-top: 15px;
-            }
-
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-
+        @media (max-width: 992px) {
             .about-content {
                 flex-direction: column;
             }
-
-            .footer-content {
-                flex-direction: column;
-                gap: 30px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Header -->
-    <header>
-        <div class="container header-content">
-            <div class="logo">
-                <i>💻</i> <span data-lang="logo">Мої проекти</span>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="#projects" data-lang="nav-projects">Проекти</a></li>
-                    <li><a href="#about" data-lang="nav-about">Про мене</a></li>
-                    <li><a href="#contact" data-lang="nav-contact">Контакти</a></li>
-                </ul>
-            </nav>
-            <div class="language-selector">
-                <button class="lang-btn active" data-lang="uk">УКР</button>
-                <button class="lang-btn" data-lang="ru">РУС</button>
-                <button class="lang-btn" data-lang="en">ENG</button>
-            </div>
-            <button class="auth-btn" id="loginBtn" data-lang="login">Увійти</button>
-        </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container hero-content">
-            <h1 data-lang="hero-title">Мої Open Source проекти</h1>
-            <p data-lang="hero-text">Тут ви знайдете колекцію моїх проектів з відкритим кодом, які я розробив. Всі вони доступні на GitHub.</p>
-            <a href="#projects" class="cta-button" data-lang="hero-cta">Переглянути проекти</a>
-        </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section class="projects" id="projects">
-        <div class="container">
-            <h2 class="section-title" data-lang="projects-title">Мої проекти</h2>
-            <div class="projects-grid" id="projectsGrid">
-                <!-- Projects will be added dynamically with JavaScript -->
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about" id="about">
-        <div class="container">
-            <h2 class="section-title" data-lang="about-title">Про мене</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <p data-lang="about-text-1">Я розробник з пристрастю до створення якісного програмного забезпечення з відкритим кодом. Моя мета - робити внесок у спільноту розробників та навчатися через співпрацю.</p>
-                    <p data-lang="about-text-2">У вільний час я люблю експериментувати з новими технологіями, вивчати нові мови програмування та співпрацювати з іншими розробниками над цікавими проектами.</p>
-                </div>
-                <div class="about-image">
-                    <div class="profile-img">
-                        <i>👨‍💻</i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3 data-lang="footer-contact">Контакти</h3>
-                    <p data-lang="footer-email">Email: developer@example.com</p>
-                    <p data-lang="footer-github">GitHub: github.com/yourusername</p>
-                </div>
-                <div class="footer-section">
-                    <h3 data-lang="footer-links">Корисні посилання</h3>
-                    <p><a href="#projects" data-lang="nav-projects">Проекти</a></p>
-                    <p><a href="#about" data-lang="nav-about">Про мене</a></p>
-                </div>
-                <div class="footer-section">
-                    <h3 data-lang="footer-follow">Слідкуйте за мною</h3>
-                    <p>GitHub</p>
-                    <p>LinkedIn</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p data-lang="footer-copyright">&copy; 2023 Мої Open Source проекти. Всі права захищені.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Login Modal -->
-    <div class="modal" id="loginModal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2 data-lang="login-title">Вхід для творця</h2>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="username" data-lang="login-username">Логін:</label>
-                    <input type="text" id="username" required>
-                </div>
-                <div class="form-group">
-                    <label for="password" data-lang="login-password">Пароль:</label>
-                    <input type="password" id="password" required>
-                </div>
-                <button type="submit" class="submit-btn" data-lang="login-submit">Увійти</button>
-            </form>
-            <div class="message" id="loginMessage"></div>
-        </div>
-    </div>
-
-    <script>
-        // Language data
-        const translations = {
-            uk: {
-                "logo": "Мої проекти",
-                "nav-projects": "Проекти",
-                "nav-about": "Про мене",
-                "nav-contact": "Контакти",
-                "login": "Увійти",
-                "hero-title": "Мої Open Source проекти",
-                "hero-text": "Тут ви знайдете колекцію моїх проектів з відкритим кодом, які я розробив. Всі вони доступні на GitHub.",
-                "hero-cta": "Переглянути проекти",
-                "projects-title": "Мої проекти",
-                "about-title": "Про мене",
-                "about-text-1": "Я розробник з пристрастю до створення якісного програмного забезпечення з відкритим кодом. Моя мета - робити внесок у спільноту розробників та навчатися через співпрацю.",
-                "about-text-2": "У вільний час я люблю експериментувати з новими технологіями, вивчати нові мови програмування та співпрацювати з іншими розробниками над цікавими проектами.",
-                "footer-contact": "Контакти",
-                "footer-email": "Email: developer@example.com",
-                "footer-github": "GitHub: github.com/yourusername",
-                "footer-links": "Корисні посилання",
-                "footer-follow": "Слідкуйте за мною",
-                "footer-copyright": "© 2023 Мої Open Source проекти. Всі права захищені.",
-                "login-title": "Вхід для творця",
-                "login-username": "Логін:",
-                "login-password": "Пароль:",
-                "login-submit": "Увійти",
-                "login-success": "Успішний вхід!",
-                "login-error": "Невірний логін або пароль!",
-                "project-github": "GitHub",
-                "project-demo": "Демо"
-            },
-            ru: {
-                "logo": "Мои проекты",
-                "nav-projects": "Проекты",
-                "nav-about": "Обо мне",
-                "nav-contact": "Контакты",
-                "login": "Войти",
-                "hero-title": "Мои Open Source проекты",
-                "hero-text": "Здесь вы найдете коллекцию моих проектов с открытым исходным кодом, которые я разработал. Все они доступны на GitHub.",
-                "hero-cta": "Посмотреть проекты",
-                "projects-title": "Мои проекты",
-                "about-title": "Обо мне",
-                "about-text-1": "Я разработчик со страстью к созданию ка
+            
+            .profile-img {
+                width: 280px;
+                height: 280px;
+       
