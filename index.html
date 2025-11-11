@@ -3,61 +3,70 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Neon Open Source Portfolio — Firebase Google Auth</title>
-<meta name="description" content="Neon portfolio — Google login + GitHub repos" />
+<title>Neon Portfolio — Open Source Projects (Firebase + Firestore)</title>
+<meta name="description" content="Neon portfolio — додавання/редагування проєктів + Google Sign-In + Firestore" />
 <style>
+  /* ---------- НЕОНОВИЙ СТИЛЬ ---------- */
   :root{
-    --bg:#050512; --muted:#9fb0c8; --accent1:#7dd3fc; --accent2:#a78bfa; --neon:#00f0ff;
+    --bg:#050512; --panel:rgba(255,255,255,0.03); --muted:#9fb0c8;
+    --accent-a:#7dd3fc; --accent-b:#a78bfa; --neon:#00f0ff;
     --radius:12px; --gap:16px; --maxw:1200px;
   }
   *{box-sizing:border-box}
-  body{
-    margin:0;padding:28px;display:flex;justify-content:center;min-height:100vh;
-    font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    background:
-      radial-gradient(700px 360px at 10% 8%, rgba(125,211,252,0.04), transparent),
-      linear-gradient(180deg,var(--bg), #020214 120%); color:#eaf6ff;
-  }
+  body{margin:0;min-height:100vh;background:
+    radial-gradient(700px 360px at 10% 8%, rgba(125,211,252,0.04), transparent),
+    linear-gradient(180deg,var(--bg), #020214 120%);color:#eaf6ff;font-family:Inter,system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;padding:20px;display:flex;justify-content:center;}
   .wrap{width:100%;max-width:var(--maxw)}
-  header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
   .brand{display:flex;gap:12px;align-items:center}
-  .logo{width:64px;height:64px;border-radius:14px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:grid;place-items:center;font-weight:800;color:#021827;font-size:18px;box-shadow:0 8px 30px rgba(167,139,250,0.12)}
+  .logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent-a),var(--accent-b));display:grid;place-items:center;font-weight:800;color:#021827;font-size:18px;box-shadow:0 10px 40px rgba(125,211,252,0.06) inset}
   h1{margin:0;font-size:20px}
   .lead{margin:0;color:var(--muted);font-size:13px}
+
   .controls{display:flex;gap:10px;align-items:center}
-  .input,.select,.btn{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border:1px solid rgba(255,255,255,0.03);padding:10px 12px;border-radius:12px;color:inherit;outline:none}
+  .input,.select,.btn{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border:1px solid rgba(255,255,255,0.03);padding:10px 12px;border-radius:10px;color:inherit;outline:none}
   .btn{cursor:pointer}
-  .btn.primary{background:linear-gradient(90deg,var(--accent1),var(--accent2));border:none;color:#021827;font-weight:700}
-  .topbar{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
-  .avatar{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#05232e,#071029);display:grid;place-items:center;font-weight:800;color:var(--accent1);font-size:18px}
+  .btn.primary{background:linear-gradient(90deg,var(--accent-a),var(--accent-b));border:none;color:#021827;font-weight:700;padding:10px 14px}
+  .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+
+  .topbar{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  .avatar{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#05232e,#071029);display:grid;place-items:center;font-weight:800;color:var(--accent-a);font-size:18px}
   .profile-info .name{font-weight:700}
   .profile-info .bio{color:var(--muted);font-size:13px}
+
+  .lang-switch{display:flex;gap:6px}
   .lang-switch button{padding:6px 8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--muted);cursor:pointer}
-  .lang-switch button.active{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#021827;font-weight:700}
-  main{}
+  .lang-switch button.active{background:linear-gradient(90deg,var(--accent-a),var(--accent-b));color:#021827;font-weight:700}
+
+  /* Grid */
+  main{display:block}
   .grid{display:grid;gap:var(--gap);grid-auto-rows:1fr}
   @media (min-width:1200px){ .grid{grid-template-columns:repeat(4,1fr);} }
   @media (min-width:900px) and (max-width:1199px){ .grid{grid-template-columns:repeat(3,1fr);} }
   @media (min-width:640px) and (max-width:899px){ .grid{grid-template-columns:repeat(2,1fr);} }
-  @media (max-width:639px){ .grid{grid-template-columns:1fr;} header{flex-direction:column;align-items:flex-start} }
-  .card{position:relative;padding:16px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.018), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);min-height:140px;display:flex;flex-direction:column;gap:10px;box-shadow:0 10px 30px rgba(2,6,23,0.6);transition:transform .2s,box-shadow .2s}
-  .card:hover{transform:translateY(-8px) scale(1.01);box-shadow:0 26px 60px rgba(2,6,23,0.8)}
-  .title{font-weight:800;margin:0}
+  @media (max-width:639px){ .grid{grid-template-columns:1fr} header{flex-direction:column;align-items:flex-start} }
+
+  .card{position:relative;padding:14px;border-radius:var(--radius);background:linear-gradient(180deg, rgba(255,255,255,0.018), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);min-height:140px;display:flex;flex-direction:column;gap:8px;box-shadow:0 8px 30px rgba(2,6,23,0.6);transition:transform .22s,box-shadow .22s}
+  .card:hover{transform:translateY(-8px) scale(1.01);box-shadow:0 24px 60px rgba(2,6,23,0.8)}
+  .title{font-weight:800;margin:0;font-size:15px}
   .desc{color:var(--muted);font-size:13px}
   .tags{display:flex;gap:8px;flex-wrap:wrap}
   .tag{padding:6px 8px;border-radius:999px;font-size:12px;border:1px solid rgba(255,255,255,0.03);background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));color:var(--neon)}
-  .actions{display:flex;align-items:center;gap:8px;margin-top:auto}
-  .link{padding:8px 12px;border-radius:10px;text-decoration:none;border:1px solid rgba(255,255,255,0.04);background:transparent;color:var(--accent1);font-weight:700}
-  .muted{color:var(--muted)}
-  .center{text-align:center}
-  .modal-back{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,6,23,0.6);z-index:60}
+  .meta{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px}
+  .actions{display:flex;gap:8px;align-items:center;margin-top:auto}
+
+  /* modal */
+  .modal-back{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(2,6,23,0.6);z-index:50}
   .modal{width:100%;max-width:640px;background:linear-gradient(180deg,#071029,#031122);border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,0.03)}
-  .form-row{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+  .form-row{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
   input[type="text"],textarea{padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit;outline:none}
   textarea{min-height:90px;resize:vertical}
-  footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
-  /* entry animation */
-  .card{opacity:0;transform:translateY(16px) scale(.995)}
+  .muted{color:var(--muted)}
+  .center{text-align:center}
+
+  footer{margin-top:20px;color:var(--muted);font-size:13px;text-align:center}
+  /* entrance */
+  .card{opacity:0;transform:translateY(18px) scale(.995)}
   .card.visible{opacity:1;transform:none;transition:opacity .6s ease, transform .6s cubic-bezier(.2,.9,.3,1)}
 </style>
 </head>
@@ -68,7 +77,7 @@
         <div class="logo" id="logo-nick">NET</div>
         <div>
           <h1 id="main-title">Neon Open Source Portfolio</h1>
-          <p class="lead" id="main-sub">Показ ваших репозиторіїв — увійдіть через Google та підключіть GitHub</p>
+          <p class="lead" id="main-sub">Підключись через Google щоб керувати своїми проєктами</p>
         </div>
       </div>
 
@@ -82,7 +91,7 @@
           <option value="lib">Бібліотеки</option>
           <option value="tool">Інструменти</option>
         </select>
-        <button id="open-login" class="btn primary">Увійти через Google</button>
+        <button id="auth-btn" class="btn primary">Увійти через Google</button>
       </div>
     </header>
 
@@ -91,14 +100,13 @@
         <div class="avatar" id="avatar-preview">U</div>
         <div class="profile-info">
           <div class="name" id="profile-name">Гість</div>
-          <div class="bio" id="profile-bio">Увійдіть, щоб редагувати профіль та підключити GitHub</div>
+          <div class="bio" id="profile-bio">Увійдіть, щоб редагувати профіль</div>
         </div>
       </div>
 
       <div style="margin-left:auto;display:flex;gap:12px;align-items:center">
-        <input id="github-handle" class="input" placeholder="GitHub ніk (наприклад: yourname)" />
-        <button id="load-github" class="btn">Завантажити репозиторії</button>
-        <div class="lang-switch" role="tablist" aria-label="Мова">
+        <button id="add-project" class="btn ghost" title="Додати проєкт (після входу)">Додати проєкт</button>
+        <div class="lang-switch" role="tablist" aria-label="Мови">
           <button data-lang="uk" class="active">🇺🇦 УКР</button>
           <button data-lang="ru">🇷🇺 РУС</button>
           <button data-lang="en">🇬🇧 ENG</button>
@@ -109,12 +117,12 @@
 
     <main>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-        <h2 style="margin:0">Проєкти</h2>
+        <h2 style="margin:0" id="section-title">Проєкти</h2>
         <div class="muted">Показано <span id="count">0</span></div>
       </div>
 
       <div id="grid" class="grid" aria-live="polite"></div>
-      <div id="empty" class="center muted" style="display:none;margin-top:18px">Ще немає репозиторіїв — введіть GitHub ніk і натисніть «Завантажити репозиторії»</div>
+      <div id="empty" class="center muted" style="display:none;margin-top:18px">Проєктів ще немає</div>
     </main>
 
     <footer>
@@ -122,171 +130,212 @@
     </footer>
   </div>
 
-  <!-- modal -->
+  <!-- Modal area -->
   <div id="modal-back" class="modal-back" aria-hidden="true">
     <div class="modal" id="modal"></div>
   </div>
 
   <!-- Firebase SDK (modular) -->
-  <!-- ЗАМІНИ ниже firebaseConfig на свій: отримаєш у Firebase Console -> Project settings -> SDK setup and configuration -->
   <script type="module">
-  // -----------------------------
-  // 1) ВСТАВЬ СЮДА СВОЮ CONFIG
-  // У Firebase Console:
-  //  - Створи проект
-  //  - В Authentication -> Sign-in method увімкни Google
-  //  - В Authorized domains додай: https://<твій-логін>.github.io
-  //  - Скопіюй конфіг з Project settings -> SDK setup
-  // -----------------------------
-  const firebaseConfig = {
-    apiKey: "REPLACE_ME",
-    authDomain: "REPLACE_ME.firebaseapp.com",
-    projectId: "REPLACE_ME",
-    appId: "REPLACE_ME",
-    // (інші поля як у консолі)
-  };
-  // -----------------------------
-  // Подключаем Firebase (modular)
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  /*********************************************************************
+   *  Firebase config — ти надав конфіг раніше; заміни при потребі
+   *********************************************************************/
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-auth.js";
+  import { getFirestore, collection, addDoc, setDoc, doc, onSnapshot, getDocs, updateDoc, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/12.5.0/firebase-firestore.js";
 
+  const firebaseConfig = {
+    apiKey: "AIzaSyBBislTzvtLqSLYXotrjwNaldoFG6dB7Uk",
+    authDomain: "open-pj-bfcae.firebaseapp.com",
+    projectId: "open-pj-bfcae",
+    storageBucket: "open-pj-bfcae.firebasestorage.app",
+    messagingSenderId: "900989349855",
+    appId: "1:900989349855:web:317ec7b0b05fcba1cf9e6a",
+    measurementId: "G-61SV2C58J9"
+  };
+
+  // ---------- Инициализация Firebase ----------
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
+  const db = getFirestore(app);
 
-  // -----------------------------
-  // App logic (UI + GitHub fetch)
-  const STORAGE_KEY = 'neon_portfolio_profile_v2';
-  let profile = loadProfile();
-  let repos = [];
-
-  // DOM
+  // ---------- DOM refs ----------
+  const authBtn = document.getElementById('auth-btn');
+  const addBtn = document.getElementById('add-project');
+  const editProfileBtn = document.getElementById('edit-profile');
+  const modalBack = document.getElementById('modal-back');
+  const modal = document.getElementById('modal');
   const grid = document.getElementById('grid');
-  const searchEl = document.getElementById('search');
-  const filterEl = document.getElementById('filter');
   const emptyEl = document.getElementById('empty');
+  const countEl = document.getElementById('count');
   const avatarPreview = document.getElementById('avatar-preview');
   const profileNameEl = document.getElementById('profile-name');
   const profileBioEl = document.getElementById('profile-bio');
-  const editProfileBtn = document.getElementById('edit-profile');
-  const openLoginBtn = document.getElementById('open-login');
-  const modalBack = document.getElementById('modal-back');
-  const modal = document.getElementById('modal');
-  const langBtns = document.querySelectorAll('.lang-switch button');
-  const loadBtn = document.getElementById('load-github');
-  const ghHandleInput = document.getElementById('github-handle');
-  const countEl = document.getElementById('count');
   const logoNick = document.getElementById('logo-nick');
   const footerName = document.getElementById('footer-name');
+  const langButtons = document.querySelectorAll('.lang-switch button');
+  const searchEl = document.getElementById('search');
+  const filterEl = document.getElementById('filter');
 
-  const LANG = {
-    uk:{login:'Увійти через Google', edit:'Редагувати профіль', load:'Завантажити репозиторії', empty:'Ще немає репозиторіїв — введіть GitHub ніk і натисніть «Завантажити репозиторії»'},
-    ru:{login:'Войти через Google', edit:'Редактировать профиль', load:'Загрузить репозитории', empty:'Пока нет репозиториев — введите GitHub ник и нажмите «Загрузить репозитории»'},
-    en:{login:'Sign in with Google', edit:'Edit profile', load:'Load repositories', empty:'No repositories yet — enter GitHub username and click "Load repositories"'}
+  // ---------- App state ----------
+  let user = null;        // Firebase user object when signed in
+  let unsub = null;       // Firestore onSnapshot unsubscribe function
+  let projects = [];      // local copy of projects currently shown
+  let currentLang = localStorage.getItem('np_lang') || 'uk';
+  const PROFILE_KEY = 'np_profile_v1';
+
+  // ---------- i18n ----------
+  const I18 = {
+    uk: { add:'Додати проєкт', edit:'Редагувати', del:'Видалити', saved:'Збережено', login:'Увійти через Google', logout:'Вийти', projects:'Проєкти', empty:'Проєктів ще немає', confirmDel:'Ви впевнені, що хочете видалити проєкт?' },
+    ru: { add:'Добавить проект', edit:'Редактировать', del:'Удалить', saved:'Сохранено', login:'Войти через Google', logout:'Выйти', projects:'Проекты', empty:'Проектов пока нет', confirmDel:'Вы уверены, что хотите удалить проект?' },
+    en: { add:'Add project', edit:'Edit', del:'Delete', saved:'Saved', login:'Sign in with Google', logout:'Sign out', projects:'Projects', empty:'No projects yet', confirmDel:'Are you sure you want to delete this project?' }
   };
-  let currentLang = 'uk';
 
-  // init
-  updateI18n(); renderProfile();
+  // ---------- Helpers ----------
+  function t(k){ return I18[currentLang][k] || k; }
+  function saveProfileLocal(p){ localStorage.setItem(PROFILE_KEY, JSON.stringify(p)); }
+  function loadProfileLocal(){ try{ return JSON.parse(localStorage.getItem(PROFILE_KEY))||{} }catch(e){return{}} }
+  function escapeHtml(s){ return String(s||'').replace(/[&<>"]/g, ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+  function debounce(fn,ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); } }
 
-  // events
-  openLoginBtn.addEventListener('click', googleSignIn);
-  editProfileBtn.addEventListener('click', openProfileEditor);
-  loadBtn.addEventListener('click', ()=>{ const h = (ghHandleInput.value||'').trim(); if(!h){ alert('Введіть GitHub ніk'); return } fetchGitHubRepos(h); });
-  searchEl.addEventListener('input', debounce(()=>render(filterRepos()),160));
-  filterEl.addEventListener('change', ()=>render(filterRepos()));
-  langBtns.forEach(b=>b.addEventListener('click', ()=>{ langBtns.forEach(x=>x.classList.remove('active')); b.classList.add('active'); currentLang=b.dataset.lang; updateI18n(); }));
+  // ---------- Update UI / i18n ----------
+  function updateI18n(){
+    document.getElementById('main-title').textContent = 'Neon Open Source Portfolio';
+    document.getElementById('main-sub').textContent = 'Підключись через Google щоб керувати своїми проєктами';
+    document.getElementById('section-title').textContent = t('projects');
+    authBtn.textContent = user ? t('logout') : t('login');
+    addBtn.textContent = t('add');
+    // lang buttons
+    langButtons.forEach(b=>b.classList.toggle('active', b.dataset.lang === currentLang));
+    localStorage.setItem('np_lang', currentLang);
+  }
 
-  // Firebase auth state
-  onAuthStateChanged(auth, user=>{
-    if(user){
-      // user: can use displayName, photoURL, email, uid
-      profile = profile || {};
-      profile.loggedIn = true;
-      profile.uid = user.uid;
-      profile.name = profile.name || user.displayName || user.email.split('@')[0];
-      profile.email = user.email;
-      saveProfile();
-      renderProfile();
-      openLoginBtn.textContent = 'Вийти';
-      openLoginBtn.onclick = googleSignOut;
+  // ---------- Auth handlers ----------
+  authBtn.addEventListener('click', async ()=>{
+    if(!user){
+      try{
+        await signInWithPopup(auth, provider);
+        // onAuthStateChanged will handle UI
+      }catch(err){
+        console.error('Sign-in error', err);
+        alert('Не вдалося увійти: ' + (err.message||err));
+      }
     } else {
-      profile.loggedIn = false;
-      saveProfile();
-      renderProfile();
-      openLoginBtn.textContent = LANG[currentLang].login;
-      openLoginBtn.onclick = googleSignIn;
+      await signOut(auth);
     }
   });
 
-  async function googleSignIn(){
-    try{
-      await signInWithPopup(auth, provider);
-      // onAuthStateChanged handles UI changes
-    }catch(err){
-      alert('Помилка входу: ' + (err.message||err));
-      console.error(err);
+  onAuthStateChanged(auth, async (u)=>{
+    user = u;
+    if(user){
+      // load profile from localStorage and merge
+      const p = loadProfileLocal();
+      p.name = p.name || user.displayName || (user.email || '').split('@')[0];
+      p.avatarInitials = p.avatarInitials || getInitials(p.name);
+      saveProfileLocal(p);
+      renderProfile();
+      subscribeToProjects();
+    } else {
+      // signed out
+      renderProfile();
+      unsubscribeProjects();
+      // optionally load local-only projects or show empty
+      projects = []; renderProjects();
     }
-  }
-  async function googleSignOut(){
-    try{
-      await signOut(auth);
-      // keep profile but mark loggedOut
-      profile.loggedIn = false; saveProfile(); renderProfile();
-    }catch(err){ console.error(err); alert('Помилка виходу'); }
+    updateI18n();
+  });
+
+  // ---------- Firestore subscribe / CRUD ----------
+  function userProjectsCollectionRef(){
+    if(!user) return null;
+    return collection(db, 'users', user.uid, 'projects');
   }
 
-  // Fetch GitHub repositories (public) — unauthenticated (watch rate limits ~60/hr per IP)
-  // We fetch user's repos, sort by stargazers_count desc, limit to 100.
-  async function fetchGitHubRepos(username){
+  function subscribeToProjects(){
+    unsubscribeProjects();
+    const ref = userProjectsCollectionRef();
+    if(!ref) return;
+    // listen ordered by createdAt (if exists), fallback to name
+    const q = query(ref, orderBy('createdAt','desc'));
+    unsub = onSnapshot(q, snap=>{
+      const arr = [];
+      snap.forEach(d=> arr.push({ id: d.id, ...d.data() }));
+      projects = arr;
+      renderProjects();
+    }, err=>{
+      console.error('snapshot error', err);
+      // fallback: load via getDocs once
+      loadProjectsOnce();
+    });
+  }
+
+  function unsubscribeProjects(){
+    if(typeof unsub === 'function') unsub(), unsub = null;
+  }
+
+  async function loadProjectsOnce(){
+    const ref = userProjectsCollectionRef();
+    if(!ref){ projects = []; renderProjects(); return; }
     try{
-      showLoading(true);
-      repos = [];
-      countEl.textContent = '...';
-      const url = `https://api.github.com/users/${encodeURIComponent(username)}/repos?per_page=100&type=owner`;
-      const res = await fetch(url);
-      if(res.status === 404){ alert('Користувача не знайдено'); showLoading(false); return; }
-      if(res.status === 403){ alert('GitHub rate limit або блокування. Спробуйте пізніше або використайте токен.'); showLoading(false); return; }
-      const data = await res.json();
-      // normalize
-      repos = data.map(r=>({
-        title: r.name,
-        desc: r.description || '',
-        tags: inferTagsFromRepo(r),
-        repo: r.html_url,
-        stars: r.stargazers_count || 0,
-        language: r.language || ''
-      })).sort((a,b)=> (b.stars||0) - (a.stars||0));
-      // save handle to profile
-      profile.github = username;
-      saveProfile();
-      render(repos);
-      countEl.textContent = repos.length;
-      showLoading(false);
-    }catch(err){
-      console.error(err);
-      alert('Помилка підвантаження репозиторіїв: ' + (err.message||err));
-      showLoading(false);
+      const snap = await getDocs(query(ref, orderBy('createdAt','desc')));
+      const arr=[];
+      snap.forEach(d=> arr.push({ id:d.id, ...d.data() }));
+      projects = arr;
+      renderProjects();
+    }catch(err){ console.error(err); projects = []; renderProjects(); }
+  }
+
+  async function addProject(data){
+    const ref = userProjectsCollectionRef();
+    if(!ref){ // fallback to localStorage if user not logged
+      // save locally per-session (not persisted across devices)
+      const local = JSON.parse(localStorage.getItem('np_local_projects')||'[]');
+      local.unshift({ id:'local_'+Date.now(), ...data });
+      localStorage.setItem('np_local_projects', JSON.stringify(local));
+      projects = local;
+      renderProjects();
+      return;
     }
+    try{
+      const docRef = await addDoc(ref, { ...data, createdAt: new Date() });
+      console.log('added doc', docRef.id);
+    }catch(err){ console.error('addProject error', err); alert('Не вдалося додати проєкт: ' + (err.message||err)); }
   }
 
-  function inferTagsFromRepo(r){
-    const tags = [];
-    if(r.language) tags.push((r.language||'').toLowerCase());
-    // simple heuristics
-    const name = (r.name||'').toLowerCase();
-    if(name.includes('cli')) tags.push('cli');
-    if(name.includes('lib')||name.includes('plugin')||name.includes('module')) tags.push('lib');
-    if(name.includes('demo')||name.includes('example')) tags.push('example');
-    if(name.includes('tool')||name.includes('utils')||name.includes('utility')) tags.push('tool');
-    if((r.topics||[]).length) tags.push(...r.topics);
-    return Array.from(new Set(tags)).slice(0,6);
+  async function updateProject(id, data){
+    const ref = userProjectsCollectionRef();
+    if(!ref){
+      const local = JSON.parse(localStorage.getItem('np_local_projects')||'[]');
+      const idx = local.findIndex(x=>x.id===id);
+      if(idx>=0){ local[idx] = { ...local[idx], ...data }; localStorage.setItem('np_local_projects', JSON.stringify(local)); projects = local; renderProjects(); }
+      return;
+    }
+    try{
+      await updateDoc(doc(db, 'users', user.uid, 'projects', id), { ...data, updatedAt: new Date() });
+    }catch(err){ console.error('updateProject error', err); alert('Не вдалося оновити: '+(err.message||err)); }
   }
 
-  function render(list){
+  async function deleteProject(id){
+    const ref = userProjectsCollectionRef();
+    if(!ref){
+      const local = JSON.parse(localStorage.getItem('np_local_projects')||'[]').filter(x=>x.id!==id);
+      localStorage.setItem('np_local_projects', JSON.stringify(local));
+      projects = local; renderProjects(); return;
+    }
+    if(!confirm(t('confirmDel'))) return;
+    try{
+      await deleteDoc(doc(db, 'users', user.uid, 'projects', id));
+    }catch(err){ console.error('deleteProject error', err); alert('Не вдалося видалити: '+(err.message||err)); }
+  }
+
+  // ---------- Render projects ----------
+  function renderProjects(){
+    const list = projects || [];
     grid.innerHTML = '';
-    if(!list || !list.length){ emptyEl.style.display = 'block'; return }
-    emptyEl.style.display = 'none';
+    if(!list.length){ emptyEl.style.display='block'; countEl.textContent = 0; return; }
+    emptyEl.style.display='none';
+    countEl.textContent = list.length;
     list.forEach((p,i)=>{
       const card = document.createElement('article'); card.className='card';
       card.innerHTML = `
@@ -296,99 +345,179 @@
           <div class="tags">${(p.tags||[]).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join('')}</div>
         </div>
         <div class="actions">
-          <a class="link" href="${escapeAttr(p.repo)}" target="_blank" rel="noopener">${LANG[currentLang].load}</a>
-          <div class="muted" style="margin-left:auto">${p.stars||0} ★</div>
+          <a class="btn ghost" href="${escapeAttr(p.link||'#')}" target="_blank" rel="noopener">Відкрити</a>
+          <div class="meta">${p.stars? (p.stars + ' ★') : ''}</div>
         </div>
       `;
+      // admin controls if current user
+      if(user){
+        const ctrl = document.createElement('div'); ctrl.style.display='flex'; ctrl.style.gap='8px'; ctrl.style.marginTop='8px';
+        const edit = document.createElement('button'); edit.className='btn ghost'; edit.textContent = t('edit'); edit.addEventListener('click', ()=>openProjectModal(p));
+        const del = document.createElement('button'); del.className='btn'; del.textContent = t('del'); del.addEventListener('click', ()=>deleteProject(p.id));
+        ctrl.appendChild(edit); ctrl.appendChild(del);
+        card.querySelector('.actions').appendChild(ctrl);
+      }
       grid.appendChild(card);
+      // entrance
       requestAnimationFrame(()=>setTimeout(()=>card.classList.add('visible'), i*50));
+      // tilt
       card.addEventListener('pointermove', (e)=>{
-        const r = card.getBoundingClientRect(); const dx = e.clientX - (r.left + r.width/2); const dy = e.clientY - (r.top + r.height/2);
+        const rect = card.getBoundingClientRect();
+        const dx = e.clientX - (rect.left + rect.width/2);
+        const dy = e.clientY - (rect.top + rect.height/2);
         card.style.transform = `perspective(800px) rotateX(${(-dy/20)}deg) rotateY(${(dx/20)}deg) translateZ(0)`;
       });
-      card.addEventListener('pointerleave', ()=>card.style.transform='');
+      card.addEventListener('pointerleave', ()=>card.style.transform = '');
     });
   }
 
-  function filterRepos(){ const q = (searchEl.value||'').trim().toLowerCase(); const f = filterEl.value;
-    if(!repos.length) return [];
-    return repos.filter(r=>{
+  // ---------- Modal helpers ----------
+  function openModal(html){
+    modal.innerHTML = html;
+    modalBack.style.display = 'flex';
+    modalBack.setAttribute('aria-hidden','false');
+  }
+  function closeModal(){ modalBack.style.display = 'none'; modal.innerHTML=''; modalBack.setAttribute('aria-hidden','true'); }
+  modalBack.addEventListener('click', (e)=>{ if(e.target===modalBack) closeModal(); });
+
+  // ---------- Add / Edit project modal ----------
+  addBtn.addEventListener('click', ()=>{
+    if(!user){ if(!confirm('Потрібно увійти через Google, щоб додавати проєкти. Увійти?')) return authBtn.click(); }
+    openProjectModal();
+  });
+
+  function openProjectModal(existing){
+    const isEdit = !!existing;
+    const titleVal = isEdit ? existing.title : '';
+    const descVal = isEdit ? existing.desc : '';
+    const linkVal = isEdit ? existing.link : '';
+    const tagsVal = isEdit ? (existing.tags||[]).join(', ') : '';
+    openModal(`
+      <h3>${isEdit ? t('edit') : t('add')}</h3>
+      <div class="form-row"><label>Назва</label><input id="proj-title" type="text" value="${escapeAttr(titleVal)}" /></div>
+      <div class="form-row"><label>Опис</label><textarea id="proj-desc">${escapeHtml(descVal)}</textarea></div>
+      <div class="form-row"><label>Посилання</label><input id="proj-link" type="text" value="${escapeAttr(linkVal)}" /></div>
+      <div class="form-row"><label>Теги (через кому)</label><input id="proj-tags" type="text" value="${escapeAttr(tagsVal)}" /></div>
+      <div style="display:flex;justify-content:flex-end;gap:8px">
+        <button id="save-proj" class="btn primary">${t('saved')}</button>
+        <button id="cancel-proj" class="btn">${t('edit')}</button>
+      </div>
+    `);
+    document.getElementById('cancel-proj').addEventListener('click', closeModal);
+    document.getElementById('save-proj').addEventListener('click', async ()=>{
+      const title = document.getElementById('proj-title').value.trim();
+      const desc = document.getElementById('proj-desc').value.trim();
+      const link = document.getElementById('proj-link').value.trim();
+      const tags = (document.getElementById('proj-tags').value||'').split(',').map(s=>s.trim()).filter(Boolean);
+      if(!title) { alert('Вкажи назву'); return; }
+      const payload = { title, desc, link, tags, updatedAt: new Date() };
+      if(isEdit){
+        await updateProject(existing.id, payload);
+      } else {
+        await addProject({ ...payload, createdAt: new Date() });
+      }
+      closeModal();
+    });
+  }
+
+  // ---------- Profile editor ----------
+  editProfileBtn.addEventListener('click', ()=>{
+    const p = loadProfileLocal();
+    openModal(`
+      <h3>Редагувати профіль</h3>
+      <div class="form-row"><label>Нік (в логотипі)</label><input id="p-nick" type="text" value="${escapeAttr(p.nick||'NET')}" /></div>
+      <div class="form-row"><label>Ім'я</label><input id="p-name" type="text" value="${escapeAttr(p.name||'Твоє імʼя')}" /></div>
+      <div class="form-row"><label>Про мене</label><textarea id="p-bio">${escapeHtml(p.bio||'')}</textarea></div>
+      <div class="form-row"><label>Ініціали аватара</label><input id="p-avatar" type="text" maxlength="2" value="${escapeAttr(p.avatarInitials||getInitials(p.name||p.nick||'U'))}" /></div>
+      <div style="display:flex;justify-content:flex-end;gap:8px">
+        <button id="save-profile" class="btn primary">Зберегти</button>
+        <button id="close-profile" class="btn">Закрити</button>
+      </div>
+    `);
+    document.getElementById('close-profile').addEventListener('click', closeModal);
+    document.getElementById('save-profile').addEventListener('click', ()=>{
+      const nick = (document.getElementById('p-nick').value||'').trim() || 'NET';
+      const name = (document.getElementById('p-name').value||'').trim() || 'Твоє імʼя';
+      const bio = (document.getElementById('p-bio').value||'').trim();
+      const avatarInitials = (document.getElementById('p-avatar').value||'').trim().toUpperCase().slice(0,2) || getInitials(name);
+      const profile = { nick, name, bio, avatarInitials };
+      saveProfileLocal(profile);
+      renderProfile();
+      closeModal();
+    });
+  });
+
+  function renderProfile(){
+    const p = loadProfileLocal();
+    avatarPreview.textContent = p.avatarInitials || getInitials(p.name||p.nick||'U');
+    profileNameEl.textContent = p.name || (user? user.displayName : 'Гість');
+    profileBioEl.textContent = p.bio || (user ? 'Редагуйте свій профіль' : 'Увійдіть щоб редагувати профіль');
+    logoNick.textContent = (p.nick||'NET').slice(0,6).toUpperCase();
+    footerName.textContent = p.name || 'Твоє імʼя';
+  }
+
+  // ---------- Utility ----------
+  function getInitials(name){ if(!name) return 'U'; return name.split(' ').map(s=>s[0]||'').join('').slice(0,2).toUpperCase(); }
+  function escapeAttr(s){ return String(s||'').replace(/"/g,'&quot;'); }
+
+  // ---------- Language switch ----------
+  langButtons.forEach(b=> b.addEventListener('click', ()=>{
+    langButtons.forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    currentLang = b.dataset.lang;
+    updateI18n();
+    renderProjects(); // re-render to reflect t() strings
+  }));
+
+  // ---------- Search & filter ----------
+  searchEl.addEventListener('input', debounce(()=>{ renderProjects(); }, 160));
+  filterEl.addEventListener('change', ()=>renderProjects());
+
+  function filterAndSearch(list){
+    const q = (searchEl.value||'').trim().toLowerCase();
+    const f = filterEl.value;
+    return (list||[]).filter(p=>{
       if(q){
-        if((r.title||'').toLowerCase().includes(q)) return true;
-        if((r.desc||'').toLowerCase().includes(q)) return true;
-        if((r.tags||[]).some(t=>t.toLowerCase().includes(q))) return true;
+        if((p.title||'').toLowerCase().includes(q)) return true;
+        if((p.desc||'').toLowerCase().includes(q)) return true;
+        if((p.tags||[]).some(t=>t.toLowerCase().includes(q))) return true;
         return false;
       }
-      if(f && f!=='all') return (r.tags||[]).includes(f) || (r.language||'').toLowerCase()===f;
+      if(f && f!=='all'){
+        return (p.tags||[]).includes(f) || (p.language||'').toLowerCase()===f;
+      }
       return true;
     });
   }
 
-  // Profile editor modal
-  editProfileBtn.addEventListener('click', openProfileEditor);
-  function openProfileEditor(){
-    openModal(`
-      <h3>Редагувати профіль</h3>
-      <div class="form-row"><label>Нік (показуєтьcя у логотипі)</label><input id="p-nick" type="text" maxlength="12" value="${escapeAttr(profile.nick||'NET')}" /></div>
-      <div class="form-row"><label>Ім'я</label><input id="p-name" type="text" value="${escapeAttr(profile.name||'Твоє імʼя')}" /></div>
-      <div class="form-row"><label>Про мене</label><textarea id="p-bio">${escapeHtml(profile.bio||'')}</textarea></div>
-      <div class="form-row"><label>GitHub ніk (щоб підвантажити репо)</label><input id="p-gh" type="text" value="${escapeAttr(profile.github||'')}" /></div>
-      <div style="display:flex;justify-content:flex-end;gap:8px"><button id="save-profile" class="btn primary">Зберегти</button><button id="close-profile" class="btn">Закрити</button></div>
-    `);
-    document.getElementById('close-profile').addEventListener('click', closeModal);
-    document.getElementById('save-profile').addEventListener('click', ()=>{
-      const nick = (document.getElementById('p-nick').value||'').trim()||profile.nick||'NET';
-      const name = (document.getElementById('p-name').value||'').trim()||profile.name||'Твоє імʼя';
-      const bio = (document.getElementById('p-bio').value||'').trim();
-      const gh = (document.getElementById('p-gh').value||'').trim();
-      profile.nick = nick; profile.name = name; profile.bio = bio; profile.github = gh;
-      saveProfile(); renderProfile(); closeModal();
-      if(gh) { ghHandleInput.value = gh; fetchGitHubRepos(gh); }
-    });
-  }
+  // ---------- On load: try to load local cached projects if signed-out ----------
+  (function init(){
+    updateI18n();
+    renderProfile();
+    // if user already signed in, onAuthStateChanged will subscribe
+    // else, try local projects
+    const local = JSON.parse(localStorage.getItem('np_local_projects') || '[]');
+    if(!user && local.length){ projects = local; renderProjects(); }
+  })();
 
-  function renderProfile(){
-    avatarPreview.textContent = (profile.avatarInitials) ? profile.avatarInitials : getInitials(profile.name||profile.nick||'U');
-    profileNameEl.textContent = profile.name || 'Гість';
-    profileBioEl.textContent = profile.bio || (profile.loggedIn ? 'Підключіть GitHub та завантажте репозиторії' : 'Увійдіть через Google для редагування профілю');
-    logoNick.textContent = (profile.nick||'NET').slice(0,6).toUpperCase();
-    footerName.textContent = profile.name || 'Твоє імʼя';
-    // if saved github handle exists, fill input
-    if(profile.github) ghHandleInput.value = profile.github;
-  }
-
-  function saveProfile(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(profile)); }
-  function loadProfile(){ try{ const raw = localStorage.getItem(STORAGE_KEY); if(raw) return JSON.parse(raw); }catch(e){} return { nick:'NET', name:'Гість', bio:'', avatarInitials:'U', loggedIn:false, github:'' }; }
-  profile = loadProfile();
-
-  // modal helpers
-  function openModal(html){ modal.innerHTML = html; modalBack.style.display = 'flex'; modalBack.setAttribute('aria-hidden','false'); }
-  function closeModal(){ modalBack.style.display = 'none'; modal.innerHTML = ''; modalBack.setAttribute('aria-hidden','true'); }
-  modalBack.addEventListener('click', (e)=>{ if(e.target===modalBack) closeModal(); });
-
-  // helpers
-  function escapeHtml(s){ return String(s||'').replace(/[&<>"]/g, ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
-  function escapeAttr(s){ return escapeHtml(s).replace(/"/g,'&quot;') }
-  function debounce(fn,ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); }; }
-  function getInitials(name){ if(!name) return 'U'; return name.split(' ').map(s=>s[0]||'').join('').slice(0,2).toUpperCase(); }
-
-  function updateI18n(){
-    document.getElementById('main-title').textContent = {uk:'Neon Open Source Portfolio',ru:'Neon Open Source Portfolio',en:'Neon Open Source Portfolio'}[currentLang];
-    document.getElementById('open-login')?.setAttribute('title', LANG[currentLang].login);
-    document.getElementById('load-github').textContent = LANG[currentLang].load;
-    emptyEl.textContent = LANG[currentLang].empty;
-  }
-
-  function showLoading(on){
-    if(on){ loadBtn.textContent = 'Завантаження...'; loadBtn.disabled = true; }
-    else{ loadBtn.textContent = LANG[currentLang].load; loadBtn.disabled = false; }
-  }
-
-  // On page load: if profile.github exists, try load
-  if(profile.github) { ghHandleInput.value = profile.github; fetchGitHubRepos(profile.github); }
-  // keep count updated even if repos empty
-  countEl.textContent = repos.length;
-
+  // ---------- End of module ----------
   </script>
+
+  <!-- Notes: Firestore security rules (example)
+       Paste into Firebase Console -> Firestore -> Rules
+  rules_version = '2';
+  service cloud.firestore {
+    match /databases/{database}/documents {
+      // Allow users to read/write only their own projects
+      match /users/{userId}/projects/{projectId} {
+        allow read: if request.auth != null && request.auth.uid == userId;
+        allow create: if request.auth != null && request.auth.uid == userId;
+        allow update: if request.auth != null && request.auth.uid == userId;
+        allow delete: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+  }
+  -->
+
 </body>
 </html>
